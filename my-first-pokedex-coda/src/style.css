@@ -88,3 +88,14 @@ body{
   height: auto;
   background-color: #c7f0a5;
 }
+
+#pages-list{
+  display: none;
+  position: absolute;
+  background-color: #e3f2c2;
+  min-width: 160px;
+}
+
+#pages:hover #pages-list{
+  display: block;
+}

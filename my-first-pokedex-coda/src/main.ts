@@ -14,20 +14,36 @@ async function getPokemonIndic(id: number) {
   return result;
 }
 
+function formatId(id: number): string {
+  return `#${id.toString().padStart(4, '0')}`
+}
+
+
 const app = document.querySelector<HTMLDivElement>('#poke-liste')!
 
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!; 
 
-async function pokeLoad() {
-  for (let i = 1; i < 1026; i++){
+async function pokeLoad(gap: number) {
+  let begin
+  let end
+
+  if(gap === 0){
+    begin = 1
+    end = 1026
+  }else{
+    begin = (25*(gap-1)) + 1
+    end = (25*gap) +1
+  }
+
+  for (let i = begin; i < end; i++){
     const pok = await getPokemonIndic(i);
     app.insertAdjacentHTML('beforeend',`
-      <div class="pokemon">
+      <div class="pokemon to-pokemon-page" data-id=${i}>
         <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
-        <p>${i}</p>
-        <p><button class="poke-btn" data-id=${i}>${pok.name}</button></p>
+        <p>${formatId(i)}</p>
+        <p>${pok.name}</p>
       </div>`)
     
     const percent = Math.round((i / 1025) * 100);
@@ -38,18 +54,40 @@ async function pokeLoad() {
   loader.remove();
 }
 
-pokeLoad();
+const paramsUrl = new URLSearchParams(window.location.search)
+let pageString = paramsUrl.get("page")
+if(!pageString){
+  pageString = "1"
+}
+const page = +pageString
+
+pokeLoad(page);
+
 
 app.addEventListener("click", (event) => {
   const target = event.target as HTMLElement;
 
-  if (target.classList.contains("poke-btn")) {
-    const id = target.dataset.id;
-    if (!id) return;
-
-    window.location.href = `pokemon.html?id=${id}`;
+  const card = target.closest(".to-pokemon-page") as HTMLElement | null
+  if(!card){
+    return
   }
-});
 
+  const id = card.dataset.id;
+  if(!id){
+    return
+  }
+
+  window.location.href = `pokemon.html?id=${id}`
+})
+
+const pages = document.querySelector<HTMLDivElement>('#pages-list')!
+for (let p = 1; p < 42; p++){
+  pages.insertAdjacentHTML("beforeend", `
+    <a href="index.html?page=${p}">Page ${p}</a>
+    `)
+}
+pages.insertAdjacentHTML("beforeend", `
+  <a href="index.html?page=0">All pokemons</a>
+  `)
 
 //document.querySelector<HTMLDivElement>('#app')!.innerHTML

@@ -83,7 +83,7 @@ const app = document.querySelector<HTMLDivElement>("#card")!
 
 app.insertAdjacentHTML("beforeend", `
     <h3>${currentPokemon.name}</h3>
-    <p><img class="pokpokimage" src=${currentPokemon.sprites.front_default} alt=${currentPokemon.name}></p>
+    <p><img class="pokpokimage" src=${currentPokemon.sprites.other.showdown.front_default} alt=${currentPokemon.name}></p>
     <p>${(currentPokemon.weight)/10}kg | ${(currentPokemon.height)/10}m</p>
     <p>${currentPokemon.types[0].type.name}</p>
     <p>${genAndGame[0]}</p>
