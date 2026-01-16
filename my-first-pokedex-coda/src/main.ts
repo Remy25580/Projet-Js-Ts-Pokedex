@@ -80,7 +80,59 @@ app.addEventListener("click", (event) => {
   window.location.href = `pokemon.html?id=${id}`
 })
 
-const pages = document.querySelector<HTMLDivElement>('#pages-list')!
+/*numérotation + choix des pages, demande moi si tu n'as pas compris ! */
+/* bar pagination est le seul changement que j'ai fais dans index .html !*/
+
+const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
+
+/* en gros ici c'est pour la fleche < */
+
+if (page > 1) {
+  conteneurPagination.insertAdjacentHTML("beforeend", `
+    <a href="index.html?page=${page - 1}" class="bouton-page">«</a>
+  `);
+}
+
+/* calcul des nombres avant et apres ici 4 de chaque coté 
+par exemple on aurait : [<, 5, 6, 7, 8, 9, 10, 11, 12, 13, >] */
+
+let pageDebut = Math.max(1, page - 4); 
+let pageFin = Math.min(41, page + 4);
+
+/* on met les num */
+
+for (let num = pageDebut; num <= pageFin; num++) {
+  const estPageActive = (num === page) ? 'page-actuelle' : '';
+  
+  conteneurPagination.insertAdjacentHTML("beforeend", `
+    <a href="index.html?page=${num}" class="bouton-page ${estPageActive}">
+      ${num}
+    </a>
+  `);
+}
+
+/* ici c'est la fleche > */
+
+if (page < 41 && page !== 0) {
+  conteneurPagination.insertAdjacentHTML("beforeend", `
+    <a href="index.html?page=${page + 1}" class="bouton-page">»</a>
+  `);
+}
+
+/* bouton pour tout les pokemon */
+
+const estToutAfficherActive = (page === 0) ? 'page-actuelle' : '';
+conteneurPagination.insertAdjacentHTML("beforeend", `
+  <a href="index.html?page=0" class="bouton-page ${estToutAfficherActive}" style="width: auto; padding: 0 12px;">
+    Tous
+  </a>
+`);
+
+/* j'ai gardé l'ancien code, on sait jamais :)*/
+
+
+
+/*const pages = document.querySelector<HTMLDivElement>('#pages-list')!
 for (let p = 1; p < 42; p++){
   pages.insertAdjacentHTML("beforeend", `
     <a href="index.html?page=${p}">Page ${p}</a>
@@ -88,6 +140,6 @@ for (let p = 1; p < 42; p++){
 }
 pages.insertAdjacentHTML("beforeend", `
   <a href="index.html?page=0">All pokemons</a>
-  `)
+  `)*/
 
 //document.querySelector<HTMLDivElement>('#app')!.innerHTML
