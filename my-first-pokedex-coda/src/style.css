@@ -2,6 +2,11 @@ body{
   background-color: #86B882;
 }
 
+#gif-chargement{
+  width: 140px;
+  height: auto;
+}
+
 #loader {
   position: fixed;
   inset: 0;
