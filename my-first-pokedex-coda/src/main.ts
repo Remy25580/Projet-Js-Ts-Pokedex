@@ -32,7 +32,7 @@ async function pokeLoad() {
     
     const percent = Math.round((i / 1025) * 100);
     progressBar.style.width = `${percent}%`;
-    progressText.textContent = `Chargement ${percent}%`;
+    progressText.textContent = `Loading: ${percent}%`;
   }
 
   loader.remove();

@@ -54,6 +54,7 @@ if(!idString){
 
 const id = +idString
 const currentPokemon = await getPokemon(id)
+document.title = `PokPok - ${currentPokemon.name}`
 
 function setGenerationAndGame(id: number): string[]{
   if(id < 152){
@@ -87,4 +88,34 @@ app.insertAdjacentHTML("beforeend", `
     <p>${currentPokemon.types[0].type.name}</p>
     <p>${genAndGame[0]}</p>
     <p>${genAndGame[1]}</p>
+    <p><audio controls>
+      <source src=${currentPokemon.cries.latest} type="audio/ogg">
+    </audio>
     `)
+
+if(currentPokemon.moves.length > 0){
+  app.insertAdjacentHTML("beforeend", `
+    <div id="moves"> </div>`)
+  let moves = ``
+  for(let i = 0; i < currentPokemon.moves.length; i++){
+    moves = `${moves}
+    <p>${currentPokemon.moves[i].move.name}</p>
+    `
+  }
+  document.querySelector<HTMLDivElement>('#moves')!.innerHTML = `
+  <h4>Moves :</h4>
+  ${moves}`
+}
+
+if(currentPokemon.abilities.length > 0){
+  app.insertAdjacentHTML("beforeend", `
+    <div id="abilities"> </div>`)
+  let abilities = ``
+  for (let i = 0; i < currentPokemon.abilities.length; i++){
+    abilities = `${abilities}
+    <p>${currentPokemon.abilities[i].ability.name}</p>`
+  }
+  document.querySelector<HTMLDivElement>('#abilities')!.innerHTML = `
+  <h4>Abilities :</h4>
+  ${abilities}`
+}
