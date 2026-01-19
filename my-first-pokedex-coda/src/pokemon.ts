@@ -1,5 +1,7 @@
 import './style.css'
 
+//===================================INTERFACES=======================================//
+
 interface Pokemon {
   id: number;
   name: string;
@@ -62,29 +64,28 @@ interface Evolution {
   };
 }
 
+//======================================FONCTIONS==========================================//
 
-
-
-//ajouter une interface pour sa génération
-
+//Fonction pour récupérer les informations du pokémon ciblé
 async function getPokemon(id: number) {
   const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
   const result = await pokemon.json() as Pokemon;
   return result;
 }
 
-
-
+//Récupération du pokémon
 const paramsUrl = new URLSearchParams(window.location.search)
 const idString = paramsUrl.get("id")
 if(!idString){
     throw console.error("Impossible de trouver ce pokemon");
 }
-
 const id = +idString
 const currentPokemon = await getPokemon(id)
+
+
 document.title = `PokPok - ${currentPokemon.name}`
 
+//Fonction pour récupérer la chaîne d'évolution du pokémon
 async function getEvoChain(id: number) {
   const specieFetch = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
   const specie = await specieFetch.json() as Specie
@@ -103,7 +104,7 @@ async function getEvoChain(id: number) {
   return chain
 }
 
-
+//Fonction pour prendre le jeu et la génération associé
 function setGenerationAndGame(id: number): string[]{
   if(id < 152){
     return ["First generation", "Pokemon Red, Blue & Yellow"]
@@ -130,6 +131,8 @@ const chain = await getEvoChain(id)
 
 const app = document.querySelector<HTMLDivElement>("#card")!
 
+//========================INSERTIONS DU CODE HTML====================================//
+
 app.insertAdjacentHTML("beforeend", `
     <h3>${currentPokemon.name}</h3>
     <p><img class="pokpokimage" src=${currentPokemon.sprites.other.showdown.front_default} alt=${currentPokemon.name}></p>
@@ -142,6 +145,8 @@ app.insertAdjacentHTML("beforeend", `
     </audio></p>
     <div id="evo-chain"> </div>
     `)
+
+
 
 let typesList = ``
 for (let type of currentPokemon.types){
@@ -160,6 +165,7 @@ for (let evo of chain){
 document.querySelector<HTMLDivElement>('#evo-chain')!.innerHTML = `
   <h4>Evolution chain: </h4>
   ${evochain}`
+
 
 if(currentPokemon.moves.length > 0){
   app.insertAdjacentHTML("beforeend", `
