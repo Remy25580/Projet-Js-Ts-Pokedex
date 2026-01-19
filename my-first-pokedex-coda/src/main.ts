@@ -88,10 +88,6 @@ app.insertAdjacentHTML('beforeend',`
   loader.remove();
 }
 
-/*for (let type of pok.types){
-        document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
-          <div class=${type.type.name}>${type.type.name}</div>`)
-      }*/
 
 const paramsUrl = new URLSearchParams(window.location.search)
 let pageString = paramsUrl.get("page")
