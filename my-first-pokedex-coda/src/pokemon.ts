@@ -35,10 +35,32 @@ interface Pokemon {
   }];
   species:{
     name: string;
-  }
+  };
 }
 
+interface Specie {
+  evolution_chain: {
+    url: string;
+  };
+}
 
+interface Evolution {
+  chain: {
+    species: {
+      name: string;
+    };
+    evolves_to: [{
+      species: {
+        name: string;
+      };
+      evolves_to: [{
+        species: {
+          name: string;
+        };
+      }];
+    }];
+  };
+}
 
 
 
@@ -63,6 +85,24 @@ const id = +idString
 const currentPokemon = await getPokemon(id)
 document.title = `PokPok - ${currentPokemon.name}`
 
+async function getEvoChain(id: number) {
+  const specieFetch = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+  const specie = await specieFetch.json() as Specie
+  
+  const evoChainFetch = await fetch(specie.evolution_chain.url)
+  const evoChain = await evoChainFetch.json() as Evolution
+
+  const chain = [evoChain.chain.species.name]
+  if(evoChain.chain.evolves_to.length > 0){
+    chain.push(evoChain.chain.evolves_to[0].species.name)
+    if(evoChain.chain.evolves_to[0].evolves_to.length > 0){
+      chain.push(evoChain.chain.evolves_to[0].evolves_to[0].species.name)
+    }
+  }
+  console.log(chain)
+  return chain
+}
+
 
 function setGenerationAndGame(id: number): string[]{
   if(id < 152){
@@ -86,6 +126,7 @@ function setGenerationAndGame(id: number): string[]{
   }
 }
 const genAndGame = setGenerationAndGame(id)
+const chain = await getEvoChain(id)
 
 const app = document.querySelector<HTMLDivElement>("#card")!
 
@@ -98,8 +139,18 @@ app.insertAdjacentHTML("beforeend", `
     <p>${genAndGame[1]}</p>
     <p><audio controls>
       <source src=${currentPokemon.cries.latest} type="audio/ogg">
-    </audio>
+    </audio></p>
+    <div id="evo-chain"> </div>
     `)
+
+let evochain = ``
+for (let evo of chain){
+  evochain = `${evochain}
+  <p>${evo}</p>`
+}
+document.querySelector<HTMLDivElement>('#evo-chain')!.innerHTML = `
+  <h4>Evolution chain: </h4>
+  ${evochain}`
 
 if(currentPokemon.moves.length > 0){
   app.insertAdjacentHTML("beforeend", `
