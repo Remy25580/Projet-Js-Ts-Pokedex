@@ -2,7 +2,7 @@ import './style.css'
 
 //===================================INTERFACES=======================================//
 
-interface Pokemon {
+export interface Pokemon {
   id: number;
   name: string;
   height: number;
