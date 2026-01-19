@@ -63,21 +63,22 @@ async function pokeLoad(gap: number) {
 
   for (let i = begin; i < end; i++){
     const pok = await getPokemonIndic(i);
-app.insertAdjacentHTML('beforeend',`
-  <div class="pokemon to-pokemon-page" data-id=${i}>
-    <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
-    <p>${pok.name}</p>
-    <div id="types-${i}" class="types"> </div>
-    <p class="pokemon-id">${formatId(i)}</p>  </div>`)
+    app.insertAdjacentHTML('beforeend',`
+    <div class="pokemon to-pokemon-page" data-id=${i}>
+      <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
+      <p>${pok.name}</p>
+      <div id="types-${i}" class="types"> </div>
+      <p class="pokemon-id">${formatId(i)}</p>
+    </div>`)
     
-      for (let type of pok.types){
-        const typeName = type.type.name
-        const color = typeColors[typeName] || "";
-        document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
+    for (let type of pok.types){
+      const typeName = type.type.name
+      const color = typeColors[typeName] || "";
+      document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
       <div class="type-badge" style="background-color: ${color}">
         ${typeName}
       </div>`);
-      }
+    }
       
     
     const percent = Math.round((i / (end-begin)) * 100);
@@ -106,12 +107,10 @@ app.addEventListener("click", (event) => {
   if(!card){
     return
   }
-
   const id = card.dataset.id;
   if(!id){
     return
   }
-
   window.location.href = `pokemon.html?id=${id}`
 })
 
