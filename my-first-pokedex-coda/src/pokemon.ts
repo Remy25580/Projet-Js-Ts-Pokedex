@@ -137,6 +137,17 @@ const chain = await getEvoChain(id)
 
 const app = document.querySelector<HTMLDivElement>("#card")!
 
+const primaryType = currentPokemon.types[0].type.name;
+
+app.className = '';
+app.classList.add(`card-${primaryType}`);
+
+const title = app.querySelector('h3');
+if (title) {
+    title.style.textShadow = `0 0 10px var(--neon-color)`;
+    title.style.color = 'white';
+}
+
 //========================INSERTIONS DU CODE HTML====================================//
 
 app.insertAdjacentHTML("beforeend", `

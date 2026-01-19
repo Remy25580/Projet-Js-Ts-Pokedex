@@ -1,5 +1,6 @@
+
 body{
-  background-color: #86B882;
+  background-color: #1e293b;
 }
 
 #gif-chargement{
@@ -157,30 +158,58 @@ body{
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+#card {
+    /* Fond bleu très foncé */
+    background-color: #0f172a !important; 
+    
+    /* Structure */
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    
+    
+    border: 2px solid var(--neon-color, #fff);
+    box-shadow: 
+        0 0 5px #fff,
+        0 0 10px var(--neon-color, #08f),
+        inset 0 0 5px var(--neon-color, #08f);
+    
+    transition: all 0.4s ease-in-out;
+}
+
 #moves {
     display: grid;
-    grid-template-columns: repeat(14, 1fr);
-    gap: 12px;
-    padding: 20px;
+    /* Crée autant de colonnes que possible de 110px */
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
+    gap: 15px;
+    padding: 25px;
     width: 100%; 
     box-sizing: border-box; 
     
-    background-color: #f8fdf5;
+    /* Fond sombre transparent pour laisser deviner le néon du fond */
+    background-color: rgba(15, 23, 42, 0.7) !important;
     border-radius: 15px;
-    border: 2px solid #c7f0a5;
+    border: 1px solid var(--neon-color) !important;
     margin: 20px 0;
     
+    /* Scrollbar stylisée */
     max-height: 400px;
     overflow-y: auto;
 }
 
 #moves h4 {
-    grid-column: 1 / -1;
-    margin: 0 0 15px 0;
-    font-size: 1.2rem;
-    color: #2d5a27;
-    border-bottom: 2px solid #c7f0a5;
-    padding-bottom: 5px;
+    grid-column: 1 / -1; /* Titre sur toute la largeur */
+    margin: 0 0 10px 0;
+    font-size: 1.3rem;
+    color: var(--neon-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px var(--neon-color);
 }
 
 #moves p {
@@ -189,15 +218,33 @@ body{
     justify-content: center;
     text-align: center;
     aspect-ratio: 1 / 1; 
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    
+    background-color: #1e293b;
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    
+    font-size: 0.85rem;
+    font-weight: 600;
     padding: 10px;
     margin: 0;
     text-transform: capitalize;
-    transition: all 0.2s ease;
+    
+    transition: all 0.3s ease;
+    cursor: default;
 }
-
-
+.card-grass { --neon-color: #35e85e; }
+.card-fire { --neon-color: #f82222}
+.card-water { --neon-color: #43a0f2}
+.card-bug { --neon-color: #96a040}
+.card-normal { --neon-color: #b8b89d}
+.card-electric { --neon-color: #fae034}
+.card-poison { --neon-color: #A040A0}
+.card-ground { --neon-color: #e08e68}
+.card-fairy { --neon-color: #EE99AC}
+.card-fighting { --neon-color: #C03028}
+.card-psychic { --neon-color: #F85888}
+.card-rock { --neon-color: #B8A038}
+.card-ghost { --neon-color: #705898}
+.card-ice { --neon-color: #98D8D8}
+.card-dragon { --neon-color: #7038F8}
