@@ -1,5 +1,23 @@
 import './style.css'
 
+const typeColors: { [key: string]: string } = {
+  grass: "#48d056",
+  fire: "#f03535",
+  water: "#3a9af4",
+  electric: "#ffc62b",
+  poison: "#b046db",
+  bug: "#A8B820",
+  normal: "#aeae93",
+  ground: "#E0C068",
+  fairy: "#EE99AC",
+  fighting: "#C03028",
+  psychic: "#F85888",
+  rock: "#B8A038",
+  ghost: "#705898",
+  ice: "#98D8D8",
+  dragon: "#7038F8",
+};
+
 interface PokeLink {
   id: number;
   name: string;
@@ -53,9 +71,14 @@ async function pokeLoad(gap: number) {
       </div>`)
     
       for (let type of pok.types){
+        const typeName = type.type.name
+        const color = typeColors[typeName] || "";
         document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
-          <div class=${type.type.name}>${type.type.name}</div>`)
+      <div class="type-badge" style="background-color: ${color}">
+        ${typeName}
+      </div>`);
       }
+      
     
     const percent = Math.round((i / (end-begin)) * 100);
     progressBar.style.width = `${percent}%`;
@@ -64,6 +87,11 @@ async function pokeLoad(gap: number) {
 
   loader.remove();
 }
+
+/*for (let type of pok.types){
+        document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
+          <div class=${type.type.name}>${type.type.name}</div>`)
+      }*/
 
 const paramsUrl = new URLSearchParams(window.location.search)
 let pageString = paramsUrl.get("page")

@@ -127,3 +127,22 @@ body{
   color: white;
   border-color: #374151;
 }
+
+/* types couleur */
+
+.types {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.type-badge {
+  color: white;         
+  padding: 4px 10px; 
+  border-radius: 12px;      
+  font-size: 0.75rem;      
+  font-weight: bold;
+  text-transform: capitalize;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
