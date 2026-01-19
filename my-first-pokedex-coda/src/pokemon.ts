@@ -64,6 +64,12 @@ interface Evolution {
   };
 }
 
+interface EvoImages {
+  sprites: {
+    front_default: string;
+  };
+}
+
 //======================================FONCTIONS==========================================//
 
 //Fonction pour récupérer les informations du pokémon ciblé
@@ -159,7 +165,10 @@ document.querySelector<HTMLDivElement>('#types')!.innerHTML = `
 
 let evochain = ``
 for (let evo of chain){
+  let imageFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${evo}/`)
+  let image = await imageFetch.json() as EvoImages
   evochain = `${evochain}
+  <p> <img src=${image.sprites.front_default} alt=${evo}> </p>
   <p>${evo}</p>`
 }
 document.querySelector<HTMLDivElement>('#evo-chain')!.innerHTML = `
