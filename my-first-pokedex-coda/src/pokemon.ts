@@ -134,7 +134,7 @@ app.insertAdjacentHTML("beforeend", `
     <h3>${currentPokemon.name}</h3>
     <p><img class="pokpokimage" src=${currentPokemon.sprites.other.showdown.front_default} alt=${currentPokemon.name}></p>
     <p>${(currentPokemon.weight)/10}kg | ${(currentPokemon.height)/10}m</p>
-    <p>${currentPokemon.types[0].type.name}</p>
+    <div id="types"> </div>
     <p>${genAndGame[0]}</p>
     <p>${genAndGame[1]}</p>
     <p><audio controls>
@@ -142,6 +142,15 @@ app.insertAdjacentHTML("beforeend", `
     </audio></p>
     <div id="evo-chain"> </div>
     `)
+
+let typesList = ``
+for (let type of currentPokemon.types){
+  typesList = `${typesList}
+  <p>${type.type.name}</p>`
+}
+document.querySelector<HTMLDivElement>('#types')!.innerHTML = `
+  <h4>Types :</h4>
+  ${typesList}`
 
 let evochain = ``
 for (let evo of chain){
