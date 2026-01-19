@@ -33,7 +33,14 @@ interface Pokemon {
       name: string;
     };
   }];
+  species:{
+    name: string;
+  }
 }
+
+
+
+
 
 
 //ajouter une interface pour sa génération
@@ -55,6 +62,7 @@ if(!idString){
 const id = +idString
 const currentPokemon = await getPokemon(id)
 document.title = `PokPok - ${currentPokemon.name}`
+
 
 function setGenerationAndGame(id: number): string[]{
   if(id < 152){

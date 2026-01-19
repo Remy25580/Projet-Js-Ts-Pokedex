@@ -6,6 +6,11 @@ interface PokeLink {
   sprites: {
     front_default: string;
   };
+  types:[{
+    type: {
+      name: string;
+    };
+  }];
 }
 
 async function getPokemonIndic(id: number) {
@@ -42,11 +47,17 @@ async function pokeLoad(gap: number) {
     app.insertAdjacentHTML('beforeend',`
       <div class="pokemon to-pokemon-page" data-id=${i}>
         <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
-        <p>${formatId(i)}</p>
         <p>${pok.name}</p>
+        <div id="types-${i}" class="types"> </div>
+        <p>${formatId(i)}</p>
       </div>`)
     
-    const percent = Math.round((i / 1025) * 100);
+      for (let type of pok.types){
+        document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
+          <div class=${type.type.name}>${type.type.name}</div>`)
+      }
+    
+    const percent = Math.round((i / (end-begin)) * 100);
     progressBar.style.width = `${percent}%`;
     progressText.textContent = `Loading: ${percent}%`;
   }
@@ -128,18 +139,3 @@ conteneurPagination.insertAdjacentHTML("beforeend", `
   </a>
 `);
 
-/* j'ai gardé l'ancien code, on sait jamais :)*/
-
-
-
-/*const pages = document.querySelector<HTMLDivElement>('#pages-list')!
-for (let p = 1; p < 42; p++){
-  pages.insertAdjacentHTML("beforeend", `
-    <a href="index.html?page=${p}">Page ${p}</a>
-    `)
-}
-pages.insertAdjacentHTML("beforeend", `
-  <a href="index.html?page=0">All pokemons</a>
-  `)*/
-
-//document.querySelector<HTMLDivElement>('#app')!.innerHTML
