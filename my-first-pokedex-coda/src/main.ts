@@ -16,6 +16,7 @@ const typeColors: { [key: string]: string } = {
   ghost: "#705898",
   ice: "#98D8D8",
   dragon: "#7038F8",
+  flying: "#8ce0de",
 };
 
 interface PokeLink {
@@ -62,13 +63,12 @@ async function pokeLoad(gap: number) {
 
   for (let i = begin; i < end; i++){
     const pok = await getPokemonIndic(i);
-    app.insertAdjacentHTML('beforeend',`
-      <div class="pokemon to-pokemon-page" data-id=${i}>
-        <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
-        <p>${pok.name}</p>
-        <div id="types-${i}" class="types"> </div>
-        <p>${formatId(i)}</p>
-      </div>`)
+app.insertAdjacentHTML('beforeend',`
+  <div class="pokemon to-pokemon-page" data-id=${i}>
+    <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
+    <p>${pok.name}</p>
+    <div id="types-${i}" class="types"> </div>
+    <p class="pokemon-id">${formatId(i)}</p>  </div>`)
     
       for (let type of pok.types){
         const typeName = type.type.name

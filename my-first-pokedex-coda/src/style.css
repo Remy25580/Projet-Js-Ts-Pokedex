@@ -72,8 +72,18 @@ body{
   padding: 8px;
   border: 2px solid #c7f0a5;
   width: 150px;
-  height: auto;
+  position: relative; 
+  min-height: 220px;
   justify-items: center;
+}
+
+.pokemon-id {
+  position: absolute;
+  bottom: 2px;  
+  right: 5px;    
+  margin: 0 !important;
+  font-size: 0.8rem;
+  color: #444;
 }
 
 .pokemon p {
