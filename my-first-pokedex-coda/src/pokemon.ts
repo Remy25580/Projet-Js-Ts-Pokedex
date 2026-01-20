@@ -55,6 +55,12 @@ export interface Pokemon {
   species:{
     name: string;
   };
+  stats: [{
+    base_stat: number;
+    stat: {
+      name: string;
+    };  
+  }]
 }
 
 interface Specie {
@@ -162,6 +168,25 @@ if (title) {
     title.style.color = 'white';
 }
 
+//fonction de calcul des stats
+
+function getMinStat(base: number, isHP: boolean): number {
+  if (isHP) return Math.floor(2 * base + 110);
+  return Math.floor((2 * base + 5) * 0.9);
+}
+
+function getMaxStat(base: number, isHP: boolean): number {
+  if (isHP) return Math.floor(2 * base + 31 + 63 + 110);
+  return Math.floor((2 * base + 31 + 63 + 5) * 1.1);
+}
+
+function getBarColor(base: number): string {
+  if (base < 60) return '#ff5959';
+  if (base < 90) return '#ffdd57';
+  if (base < 120) return '#a0e515';
+  return '#00c2b8';
+}
+
 //========================INSERTIONS DU CODE HTML====================================//
 
 app.insertAdjacentHTML("beforeend", `
@@ -192,8 +217,41 @@ app.insertAdjacentHTML("beforeend", `
 `)
 
 
+let statsHTML = `
+  <div class="stats-container" style="color: ${color}">
+    <h4>Base Stats</h4>
+    <div class="stat-line header" style="opacity: 0.7; font-size: 0.7rem; font-weight: bold;">
+      <span class="stat-name"></span>
+      <span class="stat-value"></span>
+      <div class="stat-bar-bg" style="background: transparent;"></div>
+      <span class="stat-minmax">Min</span>
+      <span class="stat-minmax">Max</span>
+    </div>
+`;
+let totalBST = 0;
 
+currentPokemon.stats.forEach(s => {
+  const isHP = s.stat.name === 'hp';
+  const min = getMinStat(s.base_stat, isHP);
+  const max = getMaxStat(s.base_stat, isHP);
+  const barWidth = (s.base_stat / 255) * 100;
+  totalBST += s.base_stat;
 
+  statsHTML += `
+    <div class="stat-line">
+      <span class="stat-name">${s.stat.name.toUpperCase()}</span>
+      <span class="stat-value">${s.base_stat}</span>
+      <div class="stat-bar-bg">
+        <div class="stat-bar-fill" style="width: ${barWidth}%; background-color: ${color}; box-shadow: 0 0 10px ${color}66;"></div>
+      </div>
+      <span class="stat-minmax">${min}</span>
+      <span class="stat-minmax">${max}</span>
+    </div>
+  `;
+});
+
+statsHTML += `<div class="stat-total"><strong>Total: ${totalBST}</strong></div></div>`;
+app.insertAdjacentHTML("beforeend", statsHTML);
 
 let typesList = ``
 for (let type of currentPokemon.types){
