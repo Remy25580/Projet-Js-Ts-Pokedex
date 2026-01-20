@@ -8,7 +8,7 @@ interface NameId {
     };
 }
 
-interface Type {
+interface TypeAbility {
     name: string;
     pokemon: [{
         pokemon: {
@@ -61,35 +61,63 @@ switch(type){
     case 'type':
         for (let i = 1; i < 20; i++){
             let typeFetch = await fetch(`https://pokeapi.co/api/v2/type/${i}`)
-            let type = await typeFetch.json() as Type
+            let type = await typeFetch.json() as TypeAbility
             if(type.name.startsWith(search)){
                 app.insertAdjacentHTML('beforeend', `
                     <div class="searched-by-type">  
                         <h4>Type ${type.name} : </h4>
                         <div class="type-searched" id="type-searched-${type.name}"> </div>
                     </div>`)
-                console.log(`insertion du type ${type.name}`)
-                console.log(type.pokemon.length)
                 if(type.pokemon.length > 0){
                     for(let t of type.pokemon){
-                        document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
-                            <div>
-                                <a href='pokemon.html?id=${t.pokemon.url.slice(34)}'>${t.pokemon.name}</a>
-                            </div>`)
-                        console.log(`insertion du pokémon ${t.pokemon.name}`)
+                        if(t.pokemon.url.slice(34).length < 6){
+                            document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <a href='pokemon.html?id=${t.pokemon.url.slice(34)}'>${t.pokemon.name}</a>
+                                </div>
+                                `)
+                        }else{
+                            document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <p>${t.pokemon.name}</p>
+                                </div>`)
+                        }
                     }
-
                 }else{
-                    console.log(`pas d'insertion`)
                     document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.innerHTML = `
                     <p>No pokemon naturally exist with this type</p>`
                 }
             }
         }
-        //https://pokeapi.co/api/v2/type/{id or name}/
         break;
     case 'ability':
-        //https://pokeapi.co/api/v2/ability/{id or name}/
+        for(let i = 1; i < 308; i++){
+            console.log(i)
+            let abFetch = await fetch(`https://pokeapi.co/api/v2/ability/${i}`)
+            let ab = await abFetch.json() as TypeAbility
+            if(ab.name.startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-ability">  
+                        <h4>Ability ${ab.name} used by : </h4>
+                        <div class="ability-searched" id="ability-searched-${ab.name}"> </div>
+                    </div>`)
+                if(ab.pokemon.length > 0){
+                    for(let a of ab.pokemon){
+                        if(a.pokemon.url.slice(34).length < 6){
+                            document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <a href='pokemon.html?id=${a.pokemon.url.slice(34)}'>${a.pokemon.name}</a>
+                                </div>`)
+                        }else{
+                            document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <p>${a.pokemon.name}</p>
+                                </div>`)
+                        }
+                    }
+                }      
+            }
+        }
         break;
     case 'generation':
         //https://pokeapi.co/api/v2/generation/{id or name}/
