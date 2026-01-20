@@ -250,6 +250,10 @@ body{
 
 
 .pokecard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
   position: absolute;
   top: 15px;
   right: 15px; 
@@ -284,3 +288,24 @@ body{
   display: flex;
   flex-direction: column;
 }
+
+.btn-cry {
+  border: 1px solid var(--neon-color, #fff);
+    box-shadow: 
+        0 0 5px #fff,
+        0 0 10px var(--neon-color, #08f),
+        inset 0 0 5px var(--neon-color, #08f);
+    
+    transition: all 0.4s ease-in-out;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+
+.btn-cry:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
