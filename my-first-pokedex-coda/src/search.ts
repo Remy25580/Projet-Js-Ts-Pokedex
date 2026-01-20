@@ -8,6 +8,16 @@ interface NameId {
     };
 }
 
+interface Type {
+    name: string;
+    pokemon: [{
+        pokemon: {
+            name: string;
+            url: string;
+        };
+    }];
+}
+
 //Récupération des paramètres de l'url
 const paramsUrl = new URLSearchParams(window.location.search)
 let search = paramsUrl.get('search')!
@@ -47,9 +57,35 @@ switch(type){
                     </div>`)
             }
         }
-        //https://pokeapi.co/api/v2/pokemon/{id or name}/
         break;
     case 'type':
+        for (let i = 1; i < 20; i++){
+            let typeFetch = await fetch(`https://pokeapi.co/api/v2/type/${i}`)
+            let type = await typeFetch.json() as Type
+            if(type.name.startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-type">  
+                        <h4>Type ${type.name} : </h4>
+                        <div class="type-searched" id="type-searched-${type.name}"> </div>
+                    </div>`)
+                console.log(`insertion du type ${type.name}`)
+                console.log(type.pokemon.length)
+                if(type.pokemon.length > 0){
+                    for(let t of type.pokemon){
+                        document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
+                            <div>
+                                <a href='pokemon.html?id=${t.pokemon.url.slice(34)}'>${t.pokemon.name}</a>
+                            </div>`)
+                        console.log(`insertion du pokémon ${t.pokemon.name}`)
+                    }
+
+                }else{
+                    console.log(`pas d'insertion`)
+                    document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.innerHTML = `
+                    <p>No pokemon naturally exist with this type</p>`
+                }
+            }
+        }
         //https://pokeapi.co/api/v2/type/{id or name}/
         break;
     case 'ability':
