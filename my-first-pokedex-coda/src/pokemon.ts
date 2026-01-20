@@ -171,17 +171,23 @@ if (title) {
 //========================INSERTIONS DU CODE HTML====================================//
 
 app.insertAdjacentHTML("beforeend", `
-    <h3 style="color: ${color}">${currentPokemon.name}</h3>
-    <p><img class="pokpokimage" src=${currentPokemon.sprites.other.showdown.front_default} alt=${currentPokemon.name}></p>
-    <p>${(currentPokemon.weight)/10}kg | ${(currentPokemon.height)/10}m</p>
-    <div id="types"> </div>
-    <p>${genAndGame[0]}</p>
-    <p>${genAndGame[1]}</p>
-    <p><audio controls>
-      <source src=${currentPokemon.cries.latest} type="audio/ogg">
-    </audio></p>
-    <div id="evo-chain"> </div>
-    `)
+    <div class="pokemon-container">
+      <div class="pokemon-infos">
+        <h3 style="color: ${color}">${currentPokemon.name}</h3>
+        <p style="color: ${color}">${(currentPokemon.weight)/10}kg | ${(currentPokemon.height)/10}m</p>
+        <div style="color: ${color}" id="types"></div>
+        <p style="color: ${color}">${genAndGame[0]}</p>
+        <p style="color: ${color}">${genAndGame[1]}</p>
+      </div>
+
+      <div class="pokecard">
+        <img class="pokpokimage" src="${currentPokemon.sprites.other.showdown.front_default}" alt="${currentPokemon.name}">
+      </div>
+    </div>
+
+    <p><audio controls><source src="${currentPokemon.cries.latest}" type="audio/ogg"></audio></p>
+    <div style="color: ${color}" id="evo-chain"></div>
+`)
 
 
 
@@ -211,7 +217,7 @@ document.querySelector<HTMLDivElement>('#evo-chain')!.innerHTML = `
 
 if(currentPokemon.moves.length > 0){
   app.insertAdjacentHTML("beforeend", `
-    <div id="moves"> </div>`)
+    <div style="color: ${color}" id="moves"> </div>`)
   let moves = ``
   for(let i = 0; i < currentPokemon.moves.length; i++){
     moves = `${moves}
@@ -225,7 +231,7 @@ if(currentPokemon.moves.length > 0){
 
 if(currentPokemon.abilities.length > 0){
   app.insertAdjacentHTML("beforeend", `
-    <div id="abilities"> </div>`)
+    <div style="color: ${color}" id="abilities"> </div>`)
   let abilities = ``
   for (let i = 0; i < currentPokemon.abilities.length; i++){
     abilities = `${abilities}

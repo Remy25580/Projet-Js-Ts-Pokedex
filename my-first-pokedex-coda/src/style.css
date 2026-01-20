@@ -158,10 +158,9 @@ body{
 }
 
 #card {
-    /* Fond bleu très foncé */
+    position: relative;
     background-color: #0f172a !important; 
     
-    /* Structure */
     width: 90%;
     max-width: 800px;
     margin: 50px auto;
@@ -250,3 +249,38 @@ body{
 .card-dragon { --neon-color: #7038F8}
 
 
+.pokecard {
+  position: absolute;
+  top: 15px;
+  right: 15px; 
+  width: 200px;  
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--neon-color, #fff);
+    box-shadow: 
+        0 0 5px #fff,
+        0 0 10px var(--neon-color, #08f),
+        inset 0 0 5px var(--neon-color, #08f);
+    
+    transition: all 0.4s ease-in-out;
+  border-radius: 5px;
+}
+
+.pokpokimage {
+  max-width: auto;
+  max-height: auto; 
+  object-fit: contain;
+}
+
+.pokemon-container {
+  display: flex;          
+  justify-content: space-between; 
+  align-items: center;     
+}
+
+.pokemon-infos {
+  display: flex;
+  flex-direction: column;
+}
