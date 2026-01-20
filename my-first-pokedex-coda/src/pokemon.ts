@@ -180,12 +180,6 @@ function getMaxStat(base: number, isHP: boolean): number {
   return Math.floor((2 * base + 31 + 63 + 5) * 1.1);
 }
 
-function getBarColor(base: number): string {
-  if (base < 60) return '#ff5959';
-  if (base < 90) return '#ffdd57';
-  if (base < 120) return '#a0e515';
-  return '#00c2b8';
-}
 
 //========================INSERTIONS DU CODE HTML====================================//
 
