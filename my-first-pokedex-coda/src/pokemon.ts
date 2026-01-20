@@ -139,7 +139,7 @@ function setGenerationAndGame(id: number): string[]{
     { max: 810, data: ["Seventh generation", "Pokemon Sun & Moon"]},
     { max: 906, data: ["Eighth generation", "Pokemon Sword & Shield"]},
   ]
-  const gen = generations.find(g => id < g.max);
+  const gen = generations.find(i => id < i.max);
   return gen ? gen.data : ["Ninth generation", "Pokemon Scarlet & Violet"];
 }
 
