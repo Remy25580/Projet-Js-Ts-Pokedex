@@ -35,6 +35,18 @@ switch(type){
         }
         break;
     case 'id':
+        for (let i = 1; i < 1026; i++){
+            let idFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+            let id = await idFetch.json() as NameId
+            if(id.id.toString().startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-id">
+                        <p>${id.id} : </p>
+                        <img src=${id.sprites.front_default} alt=${id.name}>
+                        <a href='pokemon.html?id=${i}'>${id.name}</a>
+                    </div>`)
+            }
+        }
         //https://pokeapi.co/api/v2/pokemon/{id or name}/
         break;
     case 'type':
