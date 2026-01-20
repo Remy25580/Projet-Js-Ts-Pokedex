@@ -12,6 +12,8 @@ console.log(test.text())
 
 document.querySelector<HTMLDivElement>('#recherche')!.innerHTML = `Vous avez recherché : ${search} par ${type}`
 
+
+//Traitement des différents types de recherche
 switch(type){
     case 'name':
         break;

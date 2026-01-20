@@ -1,5 +1,6 @@
 import './style.css'
 
+//Définitions des couleurs pour les différents types
 const typeColors: { [key: string]: string } = {
   grass: "#48d056",
   fire: "#f03535",
@@ -19,6 +20,8 @@ const typeColors: { [key: string]: string } = {
   flying: "#8ce0de",
 };
 
+
+//Interface stockant les infos relatives au pokémon
 interface PokeLink {
   id: number;
   name: string;
@@ -32,12 +35,14 @@ interface PokeLink {
   }];
 }
 
+//Fonction pour récupérer les infos du pokémon
 async function getPokemonIndic(id: number) {
   const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
   const result = await pokemon.json() as PokeLink;
   return result;
 }
 
+//Fonction pour réécrire l'id au format #xxxx
 function formatId(id: number): string {
   return `#${id.toString().padStart(4, '0')}`
 }
@@ -49,6 +54,7 @@ const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!; 
 
+//Fonction pour insérer en html les pokémons séléctionés par la page
 async function pokeLoad(gap: number) {
   let begin
   let end
@@ -89,7 +95,7 @@ async function pokeLoad(gap: number) {
   loader.remove();
 }
 
-
+//récupération de la page dans l'url pour afficher les pokémons
 const paramsUrl = new URLSearchParams(window.location.search)
 let pageString = paramsUrl.get("page")
 if(!pageString){
@@ -99,7 +105,7 @@ const page = +pageString
 
 pokeLoad(page);
 
-
+//Event qui redirige vers la page du pokémon correspondant quand on lui clique dessus
 app.addEventListener("click", (event) => {
   const target = event.target as HTMLElement;
 
@@ -118,8 +124,6 @@ app.addEventListener("click", (event) => {
 /* bar pagination est le seul changement que j'ai fais dans index .html !*/
 
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
-
-/* en gros ici c'est pour la fleche < */
 
 if (page > 1) {
   conteneurPagination.insertAdjacentHTML("beforeend", `
@@ -145,7 +149,6 @@ for (let num = pageDebut; num <= pageFin; num++) {
   `);
 }
 
-/* ici c'est la fleche > */
 
 if (page < 41 && page !== 0) {
   conteneurPagination.insertAdjacentHTML("beforeend", `
