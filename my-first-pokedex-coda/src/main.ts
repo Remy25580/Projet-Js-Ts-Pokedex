@@ -87,7 +87,7 @@ async function pokeLoad(gap: number) {
     }
       
     
-    const percent = Math.round((i / (end-begin)) * 100);
+    const percent = Math.round(((i-(begin-1)) / (end-begin)) * 100);
     progressBar.style.width = `${percent}%`;
     progressText.textContent = `Loading: ${percent}%`;
   }
@@ -148,6 +148,7 @@ for (let num = pageDebut; num <= pageFin; num++) {
     </a>
   `);
 }
+
 
 
 if (page < 41 && page !== 0) {
