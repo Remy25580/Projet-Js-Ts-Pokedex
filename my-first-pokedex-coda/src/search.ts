@@ -18,6 +18,28 @@ interface TypeAbility {
     }];
 }
 
+interface Generation {
+    pokemon_species: [{
+        name: string;
+        url: string;
+    }];
+}
+
+function setGenName(id: number): string {
+    const generations = [
+        "first",
+        "second",
+        "third",
+        "fourth",
+        "fifth",
+        "sixth",
+        "seventh",
+        "eigth",
+        "ninth"
+    ]
+    return generations[id-1];
+}
+
 //Récupération des paramètres de l'url
 const paramsUrl = new URLSearchParams(window.location.search)
 let search = paramsUrl.get('search')!
@@ -73,7 +95,7 @@ switch(type){
                         if(t.pokemon.url.slice(34).length < 6){
                             document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
-                                    <a href='pokemon.html?id=${t.pokemon.url.slice(34)}'>${t.pokemon.name}</a>
+                                    <a href='pokemon.html?id=${t.pokemon.url.slice(34, t.pokemon.url.length-1)}'>${t.pokemon.name}</a>
                                 </div>
                                 `)
                         }else{
@@ -106,7 +128,7 @@ switch(type){
                         if(a.pokemon.url.slice(34).length < 6){
                             document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
-                                    <a href='pokemon.html?id=${a.pokemon.url.slice(34)}'>${a.pokemon.name}</a>
+                                    <a href='pokemon.html?id=${a.pokemon.url.slice(34, a.pokemon.url.length-1)}'>${a.pokemon.name}</a>
                                 </div>`)
                         }else{
                             document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
@@ -120,7 +142,22 @@ switch(type){
         }
         break;
     case 'generation':
-        //https://pokeapi.co/api/v2/generation/{id or name}/
+        if(+search < 1 || +search > 9){
+            app.insertAdjacentHTML('beforeend', `
+                <p>This generation hasn't been found</p>`)
+            break;
+        }
+        const genFetch = await fetch(`https://pokeapi.co/api/v2/generation/${+search}`)
+        const gen = await genFetch.json() as Generation
+        app.insertAdjacentHTML('beforeend', `
+            <h4>Pokemons of the ${setGenName(+search)} generation :</h4>
+            <div class="searched-by-gen"> </div>`)
+        for(let p of gen.pokemon_species){
+            document.querySelector<HTMLDivElement>('.searched-by-gen')!.insertAdjacentHTML('beforeend', `
+                <div>
+                    <a href='pokemon.html?id=${p.url.slice(42, p.url.length-1)}'>${p.name}</a>
+                </div>`)
+        }
         break;
     default:
         break;
