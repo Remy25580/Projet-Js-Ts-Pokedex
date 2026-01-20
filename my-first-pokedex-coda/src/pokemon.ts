@@ -129,26 +129,20 @@ async function getEvoChain(id: number) {
 
 //Fonction pour prendre le jeu et la génération associé
 function setGenerationAndGame(id: number): string[]{
-  if(id < 152){
-    return ["First generation", "Pokemon Red, Blue & Yellow"]
-  }else if(id < 252){
-    return ["Second generation", "Pokemon Gold, Silver & Crystal"]
-  }else if(id < 387){
-    return ["Third generation", "Pokemon Ruby, Sapphire & Emerald"]
-  }else if(id < 494){
-    return ["Fourth generation", "Pokemon Diamond, Pearl & Platinium"]
-  }else if(id < 650){
-    return ["Fifth generation", "Pokemon Black & White"]
-  }else if(id < 722){
-    return ["Sixth generation", "Pokemon X & Y"]
-  }else if(id < 810){
-    return ["Seventh generation", "Pokemon Sun & Moon"]
-  }else if(id < 906){
-    return ["Eighth generation", "Pokemon Sword & Shield"]
-  }else{
-    return ["Ninth generation", "Pokemon Scarlet & Violet"]
-  }
+  const generations = [
+    { max: 152, data: ["First generation", "Pokemon Red, Blue & Yellow"] },
+    { max: 252, data: ["Second generation", "Pokemon Gold, Silver & Crystal"]},
+    { max: 387, data: ["Third generation", "Pokemon Ruby, Sapphire & Emerald"]},
+    { max: 494, data: ["Fourth generation", "Pokemon Diamond, Pearl & Platinium"]},
+    { max: 650, data: ["Fifth generation", "Pokemon Black & White"]},
+    { max: 722, data: ["Sixth generation", "Pokemon X & Y"]},
+    { max: 810, data: ["Seventh generation", "Pokemon Sun & Moon"]},
+    { max: 906, data: ["Eighth generation", "Pokemon Sword & Shield"]},
+  ]
+  const gen = generations.find(i => id < i.max);
+  return gen ? gen.data : ["Ninth generation", "Pokemon Scarlet & Violet"];
 }
+
 const genAndGame = setGenerationAndGame(id)
 const chain = await getEvoChain(id)
 
@@ -182,10 +176,18 @@ app.insertAdjacentHTML("beforeend", `
 
       <div class="pokecard">
         <img class="pokpokimage" src="${currentPokemon.sprites.other.showdown.front_default}" alt="${currentPokemon.name}">
+        
+        <audio id="audio-${currentPokemon.name}">
+          <source src="${currentPokemon.cries.latest}" type="audio/ogg">
+        </audio>
+
+        <button class="btn-cry" onclick="document.getElementById('audio-${currentPokemon.name}').play()">
+          Écouter ce Pokémon
+        </button>
       </div>
     </div>
 
-    <p><audio controls><source src="${currentPokemon.cries.latest}" type="audio/ogg"></audio></p>
+    
     <div style="color: ${color}" id="evo-chain"></div>
 `)
 
