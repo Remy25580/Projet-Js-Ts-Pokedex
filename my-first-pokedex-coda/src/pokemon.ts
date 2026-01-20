@@ -1,5 +1,22 @@
 import './style.css'
-
+const typeColors: { [key: string]: string } = {
+  grass: "#48d056",
+  fire: "#f03535",
+  water: "#3a9af4",
+  electric: "#ffc62b",
+  poison: "#b046db",
+  bug: "#A8B820",
+  normal: "#aeae93",
+  ground: "#E0C068",
+  fairy: "#EE99AC",
+  fighting: "#C03028",
+  psychic: "#F85888",
+  rock: "#B8A038",
+  ghost: "#705898",
+  ice: "#98D8D8",
+  dragon: "#7038F8",
+  flying: "#8ce0de",
+};
 //===================================INTERFACES=======================================//
 
 export interface Pokemon {
@@ -139,6 +156,9 @@ const app = document.querySelector<HTMLDivElement>("#card")!
 
 const primaryType = currentPokemon.types[0].type.name;
 
+const mainType = currentPokemon.types[0].type.name;
+    const color = typeColors[mainType] || "";
+
 app.className = '';
 app.classList.add(`card-${primaryType}`);
 
@@ -151,7 +171,7 @@ if (title) {
 //========================INSERTIONS DU CODE HTML====================================//
 
 app.insertAdjacentHTML("beforeend", `
-    <h3>${currentPokemon.name}</h3>
+    <h3 style="color: ${color}">${currentPokemon.name}</h3>
     <p><img class="pokpokimage" src=${currentPokemon.sprites.other.showdown.front_default} alt=${currentPokemon.name}></p>
     <p>${(currentPokemon.weight)/10}kg | ${(currentPokemon.height)/10}m</p>
     <div id="types"> </div>
@@ -162,6 +182,8 @@ app.insertAdjacentHTML("beforeend", `
     </audio></p>
     <div id="evo-chain"> </div>
     `)
+
+
 
 
 

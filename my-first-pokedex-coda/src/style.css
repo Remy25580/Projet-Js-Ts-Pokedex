@@ -1,4 +1,3 @@
-
 body{
   background-color: #1e293b;
 }
@@ -232,7 +231,8 @@ body{
     
     transition: all 0.3s ease;
     cursor: default;
-}
+}  
+
 .card-grass { --neon-color: #35e85e; }
 .card-fire { --neon-color: #f82222}
 .card-water { --neon-color: #43a0f2}
@@ -248,3 +248,5 @@ body{
 .card-ghost { --neon-color: #705898}
 .card-ice { --neon-color: #98D8D8}
 .card-dragon { --neon-color: #7038F8}
+
+
