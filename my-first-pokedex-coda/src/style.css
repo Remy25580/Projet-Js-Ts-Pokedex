@@ -483,3 +483,46 @@ body{
   text-align: center;
   opacity: 0.7;
 }
+
+/*---------- menu pokemon--------------*/
+
+/* Cache les onglets par défaut */
+.tab-content {
+    display: none;
+}
+
+/* Affiche uniquement l'onglet actif */
+.tab-content.active {
+    display: block;
+}
+
+/* Style de la barre de menu */
+.pokemon-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.5;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+    opacity: 1;
+    border-bottom: 3px solid; /* La couleur est déjà injectée via le style inline JS */
+}
+
+/* Pour que les moves ne prennent pas trop de place */
+.moves-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-height: 250px;
+    overflow-y: auto;
+}
