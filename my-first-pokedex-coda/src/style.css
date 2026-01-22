@@ -363,3 +363,123 @@ body{
     padding-top: 10px;
     border-top: 1px solid rgba(255,255,255,0.2);
 }
+
+/*CSS de la page de recherche (en test)*/
+
+/* Conteneur principal */
+#recherche {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: system-ui, sans-serif;
+}
+
+/* Message "You searched..." */
+#recherche > p,
+#recherche > h4 {
+  margin: 0.5rem 0;
+}
+
+/* ---------- Résultats simples (name / id) ---------- */
+
+.searched-by-name,
+.searched-by-id {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Image Pokémon */
+.searched-by-name img,
+.searched-by-id img {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+/* Liens */
+.searched-by-name a,
+.searched-by-id a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.searched-by-name a:hover,
+.searched-by-id a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Type / Ability ---------- */
+
+.searched-by-type,
+.searched-by-ability {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.searched-by-type h4,
+.searched-by-ability h4 {
+  margin-bottom: 0.5rem;
+}
+
+/* Liste des Pokémon d’un type / ability */
+.type-searched,
+.ability-searched {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.4rem 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.type-searched div,
+.ability-searched div {
+  padding: 0.25rem 0;
+}
+
+.type-searched a,
+.ability-searched a {
+  text-decoration: none;
+}
+
+.type-searched a:hover,
+.ability-searched a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Génération ---------- */
+
+.searched-by-gen {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.searched-by-gen div {
+  padding: 0.25rem 0;
+}
+
+.searched-by-gen a {
+  text-decoration: none;
+}
+
+.searched-by-gen a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Fin de recherche ---------- */
+
+#recherche h4:last-child {
+  margin-top: 2rem;
+  text-align: center;
+  opacity: 0.7;
+}
