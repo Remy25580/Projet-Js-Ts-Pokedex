@@ -43,7 +43,7 @@ body{
 }
 
 #titre-main-page img {
-  width: 60px;
+  width: 90px;
   height: auto;
 }
 
@@ -364,9 +364,8 @@ body{
     border-top: 1px solid rgba(255,255,255,0.2);
 }
 
-/*CSS de la page de recherche (en test)*/
+/*CSS de la page de recherche*/
 
-/* Conteneur principal */
 #recherche {
   max-width: 900px;
   margin: 0 auto;
@@ -377,13 +376,11 @@ body{
   font-family: system-ui, sans-serif;
 }
 
-/* Message "You searched..." */
 #recherche > p,
 #recherche > h4 {
   margin: 0.5rem 0;
 }
 
-/* ---------- Résultats simples (name / id) ---------- */
 
 .searched-by-name,
 .searched-by-id {
@@ -395,7 +392,6 @@ body{
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Image Pokémon */
 .searched-by-name img,
 .searched-by-id img {
   width: 64px;
@@ -403,7 +399,6 @@ body{
   image-rendering: pixelated;
 }
 
-/* Liens */
 .searched-by-name a,
 .searched-by-id a {
   font-weight: 600;
@@ -414,8 +409,6 @@ body{
 .searched-by-id a:hover {
   text-decoration: underline;
 }
-
-/* ---------- Type / Ability ---------- */
 
 .searched-by-type,
 .searched-by-ability {
@@ -429,7 +422,6 @@ body{
   margin-bottom: 0.5rem;
 }
 
-/* Liste des Pokémon d’un type / ability */
 .type-searched,
 .ability-searched {
   display: grid;
@@ -453,8 +445,6 @@ body{
   text-decoration: underline;
 }
 
-/* ---------- Génération ---------- */
-
 .searched-by-gen {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -476,13 +466,12 @@ body{
   text-decoration: underline;
 }
 
-/* ---------- Fin de recherche ---------- */
-
 #recherche h4:last-child {
   margin-top: 2rem;
   text-align: center;
   opacity: 0.7;
 }
+
 
 /*---------- menu pokemon--------------*/
 
@@ -525,4 +514,59 @@ body{
     grid-template-columns: 1fr 1fr;
     max-height: 250px;
     overflow-y: auto;
+}
+/*barre de recherche*/
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  margin: 1rem auto;
+  max-width: 600px;
+
+  border-radius: 12px; 
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.search-bar input[type="search"] {
+  flex: 1;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.95rem;
+}
+
+.search-bar input[type="search"]:focus {
+  outline: none;
+  border-color: #4caf50;
+}
+
+.search-bar select {
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.search-bar button {
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  background-color: #4caf50;
+  color: white;
+}
+
+.search-bar button:hover {
+  background-color: #43a047;
+}
+
+.search-bar button:active {
+  transform: scale(0.97);
 }
