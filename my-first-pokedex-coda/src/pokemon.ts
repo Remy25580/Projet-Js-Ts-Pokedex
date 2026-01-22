@@ -1,10 +1,6 @@
 import './style.css'
-import { getMinStat } from './tool';
-import { getMaxStat } from './tool';
-import  { typeColors } from './tool';
-import { setGenerationAndGame } from './tool';
-import { getPokemon } from './api';
-import { getEvoChain } from './api';
+import { getMinStat, getMaxStat, setGenerationAndGame, typeColors } from './tool';
+import { getPokemon, getEvoChain } from './api';
 import type { EvoImages } from './interface';
 
 //Récupération du pokémon

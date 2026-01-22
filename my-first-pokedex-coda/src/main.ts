@@ -1,6 +1,5 @@
 import './style.css'
-import  { typeColors } from './tool';
-import { formatId } from './tool';
+import { formatId, typeColors } from './tool';
 import { getPokemonIndic } from './api';
 
 

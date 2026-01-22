@@ -1,9 +1,7 @@
 import './style.css'
-import { searchByName } from './api';
-import { searchById } from './api';
-import { searchByType } from './api';
-import { searchByAbility } from './api';
-import { searchByGeneration } from './api';
+import { searchByAbility, searchByGeneration, searchById, searchByName, searchByType } from './api'
+import { setGenName } from './tool'
+
 
 //Récupération des paramètres de l'url
 const paramsUrl = new URLSearchParams(window.location.search)
@@ -19,19 +17,104 @@ app.innerHTML = `You searched the ${type} ${search}`
 //Traitement des différents types de recherche
 switch(type){
     case 'name':
-        await searchByName(search, app)
+        for(let i = 1; i < 1026; i++){
+            let name = await searchByName(i)
+            if(name.name.startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-name">
+                        <img src=${name.sprites.front_default} alt=${name.name}>
+                        <a href='pokemon.html?id=${i}'>${name.name}</a>
+                    </div>`)
+            }
+        }
         break;
     case 'id':
-        await searchById(search, app)
+        for (let i = 1; i < 1026; i++){
+            let id = await searchById(i)
+            if(id.id.toString().startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-id">
+                        <p>${id.id} : </p>
+                        <img src=${id.sprites.front_default} alt=${id.name}>
+                        <a href='pokemon.html?id=${i}'>${id.name}</a>
+                    </div>`)
+            }
+        }
         break;
     case 'type':
-        await searchByType(search, app)
+        for (let i = 1; i < 20; i++){
+            let type = await searchByType(i)
+            if(type.name.startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-type">  
+                        <h4>Type ${type.name} : </h4>
+                        <div class="type-searched" id="type-searched-${type.name}"> </div>
+                    </div>`)
+                if(type.pokemon.length > 0){
+                    for(let t of type.pokemon){
+                        if(t.pokemon.url.slice(34).length < 6){
+                            document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <a href='pokemon.html?id=${t.pokemon.url.slice(34, t.pokemon.url.length-1)}'>${t.pokemon.name}</a>
+                                </div>
+                                `)
+                        }else{
+                            document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <p>${t.pokemon.name}</p>
+                                </div>`)
+                        }
+                    }
+                }else{
+                    document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.innerHTML = `
+                    <p>No pokemon naturally exist with this type</p>`
+                }
+            }
+        }
         break;
     case 'ability':
-        await searchByAbility(search, app)
+        for(let i = 1; i < 308; i++){
+            let ab = await searchByAbility(i)
+            if(ab.name.startsWith(search)){
+                app.insertAdjacentHTML('beforeend', `
+                    <div class="searched-by-ability">  
+                        <h4>Ability ${ab.name} used by : </h4>
+                        <div class="ability-searched" id="ability-searched-${ab.name}"> </div>
+                    </div>`)
+                if(ab.pokemon.length > 0){
+                    for(let a of ab.pokemon){
+                        if(a.pokemon.url.slice(34).length < 6){
+                            document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <a href='pokemon.html?id=${a.pokemon.url.slice(34, a.pokemon.url.length-1)}'>${a.pokemon.name}</a>
+                                </div>`)
+                        }else{
+                            document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
+                                <div>
+                                    <p>${a.pokemon.name}</p>
+                                </div>`)
+                        }
+                    }
+                }      
+            }
+        }
         break;
     case 'generation':
-        await searchByGeneration(search, app)
+        if(+search < 1 || +search > 9){
+            app.insertAdjacentHTML('beforeend', `
+                <p>This generation hasn't been found</p>`)
+            break
+        }
+        let gen = await searchByGeneration(+search)
+        app.insertAdjacentHTML('beforeend', `
+            <h4>Pokemons of the ${setGenName(+search)} generation :</h4>
+            <div class="searched-by-gen"> </div>`)
+        for(let p of gen.pokemon_species){
+            document.querySelector<HTMLDivElement>('.searched-by-gen')!.insertAdjacentHTML('beforeend', `
+                <div>
+                    <a href='pokemon.html?id=${p.url.slice(42, p.url.length-1)}'>${p.name}</a>
+                </div>`)
+        }
         break;
     default:
         break;
