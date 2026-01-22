@@ -8,7 +8,7 @@ const paramsUrl = new URLSearchParams(window.location.search)
 let search = paramsUrl.get('search')!
 let type = paramsUrl.get('type')!
 
-document.title = `PokSearch: ${search}`
+document.title = `PokPok Search: ${search}`
 
 const app = document.querySelector<HTMLDivElement>('#recherche')!
 
