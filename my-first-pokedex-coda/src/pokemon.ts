@@ -1,106 +1,11 @@
 import './style.css'
-const typeColors: { [key: string]: string } = {
-  grass: "#48d056",
-  fire: "#f03535",
-  water: "#3a9af4",
-  electric: "#ffc62b",
-  poison: "#b046db",
-  bug: "#A8B820",
-  normal: "#aeae93",
-  ground: "#E0C068",
-  fairy: "#EE99AC",
-  fighting: "#C03028",
-  psychic: "#F85888",
-  rock: "#B8A038",
-  ghost: "#705898",
-  ice: "#98D8D8",
-  dragon: "#7038F8",
-  flying: "#8ce0de",
-};
-//===================================INTERFACES=======================================//
-
-export interface Pokemon {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  abilities: [{
-    is_hidden: boolean;
-    slot: number;
-    ability: {
-      name: string;
-    };
-  }];
-  moves: [{
-    move: {
-      name: string;
-    };
-  }];
-  sprites: {
-    front_default: string;
-    other: {
-      showdown: {
-        front_default: string;
-      };
-    };
-  };
-  cries: {
-    latest: string;
-  };
-  types:[{
-    type: {
-      name: string;
-    };
-  }];
-  species:{
-    name: string;
-  };
-  stats: [{
-    base_stat: number;
-    stat: {
-      name: string;
-    };  
-  }]
-}
-
-interface Specie {
-  evolution_chain: {
-    url: string;
-  };
-}
-
-interface Evolution {
-  chain: {
-    species: {
-      name: string;
-    };
-    evolves_to: [{
-      species: {
-        name: string;
-      };
-      evolves_to: [{
-        species: {
-          name: string;
-        };
-      }];
-    }];
-  };
-}
-
-interface EvoImages {
-  sprites: {
-    front_default: string;
-  };
-}
-
-//======================================FONCTIONS==========================================//
-
-//Fonction pour récupérer les informations du pokémon ciblé
-async function getPokemon(id: number) {
-  const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-  const result = await pokemon.json() as Pokemon;
-  return result;
-}
+import { getMinStat } from './tool';
+import { getMaxStat } from './tool';
+import  { typeColors } from './tool';
+import { setGenerationAndGame } from './tool';
+import { getPokemon } from './api';
+import { getEvoChain } from './api';
+import type { EvoImages } from './interface';
 
 //Récupération du pokémon
 const paramsUrl = new URLSearchParams(window.location.search)
@@ -111,43 +16,7 @@ if(!idString){
 const id = +idString
 const currentPokemon = await getPokemon(id)
 
-
 document.title = `PokPok - ${currentPokemon.name}`
-
-//Fonction pour récupérer la chaîne d'évolution du pokémon
-async function getEvoChain(id: number) {
-  const specieFetch = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
-  const specie = await specieFetch.json() as Specie
-  
-  const evoChainFetch = await fetch(specie.evolution_chain.url)
-  const evoChain = await evoChainFetch.json() as Evolution
-
-  const chain = [evoChain.chain.species.name]
-  if(evoChain.chain.evolves_to.length > 0){
-    chain.push(evoChain.chain.evolves_to[0].species.name)
-    if(evoChain.chain.evolves_to[0].evolves_to.length > 0){
-      chain.push(evoChain.chain.evolves_to[0].evolves_to[0].species.name)
-    }
-  }
-  console.log(chain)
-  return chain
-}
-
-//Fonction pour prendre le jeu et la génération associé
-function setGenerationAndGame(id: number): string[]{
-  const generations = [
-    { max: 152, data: ["First generation", "Pokemon Red, Blue & Yellow"] },
-    { max: 252, data: ["Second generation", "Pokemon Gold, Silver & Crystal"]},
-    { max: 387, data: ["Third generation", "Pokemon Ruby, Sapphire & Emerald"]},
-    { max: 494, data: ["Fourth generation", "Pokemon Diamond, Pearl & Platinium"]},
-    { max: 650, data: ["Fifth generation", "Pokemon Black & White"]},
-    { max: 722, data: ["Sixth generation", "Pokemon X & Y"]},
-    { max: 810, data: ["Seventh generation", "Pokemon Sun & Moon"]},
-    { max: 906, data: ["Eighth generation", "Pokemon Sword & Shield"]},
-  ]
-  const gen = generations.find(i => id < i.max);
-  return gen ? gen.data : ["Ninth generation", "Pokemon Scarlet & Violet"];
-}
 
 const genAndGame = setGenerationAndGame(id)
 const chain = await getEvoChain(id)
@@ -157,7 +26,7 @@ const app = document.querySelector<HTMLDivElement>("#card")!
 const primaryType = currentPokemon.types[0].type.name;
 
 const mainType = currentPokemon.types[0].type.name;
-    const color = typeColors[mainType] || "";
+const color = typeColors[mainType] || "";
 
 app.className = '';
 app.classList.add(`card-${primaryType}`);
@@ -167,21 +36,6 @@ if (title) {
     title.style.textShadow = `0 0 10px var(--neon-color)`;
     title.style.color = 'white';
 }
-
-//fonction de calcul des stats
-
-function getMinStat(base: number, isHP: boolean): number {
-  if (isHP) return Math.floor(2 * base + 110);
-  return Math.floor((2 * base + 5) * 0.9);
-}
-
-function getMaxStat(base: number, isHP: boolean): number {
-  if (isHP) return Math.floor(2 * base + 31 + 63 + 110);
-  return Math.floor((2 * base + 31 + 63 + 5) * 1.1);
-}
-
-
-//========================INSERTIONS DU CODE HTML====================================//
 
 app.insertAdjacentHTML("beforeend", `
     <div class="pokemon-container">
