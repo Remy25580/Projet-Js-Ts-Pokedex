@@ -247,7 +247,8 @@ body{
 .card-ghost { --neon-color: #705898}
 .card-ice { --neon-color: #98D8D8}
 .card-dragon { --neon-color: #7038F8}
-
+.card-dark {--neon-color: #705848}
+.card-steel {--neon-color: #B8B8D0}
 
 .pokecard {
   display: flex;

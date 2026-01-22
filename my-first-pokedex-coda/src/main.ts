@@ -18,6 +18,8 @@ const typeColors: { [key: string]: string } = {
   ice: "#98D8D8",
   dragon: "#7038F8",
   flying: "#8ce0de",
+  dark: "#705848",
+  steel: "#B8B8D0",
 };
 
 
