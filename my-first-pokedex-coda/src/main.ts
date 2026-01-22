@@ -1,59 +1,7 @@
 import './style.css'
-<<<<<<< HEAD
-
-//Définitions des couleurs pour les différents types
-const typeColors: { [key: string]: string } = {
-  grass: "#48d056",
-  fire: "#f03535",
-  water: "#3a9af4",
-  electric: "#ffc62b",
-  poison: "#b046db",
-  bug: "#A8B820",
-  normal: "#aeae93",
-  ground: "#E0C068",
-  fairy: "#EE99AC",
-  fighting: "#C03028",
-  psychic: "#F85888",
-  rock: "#B8A038",
-  ghost: "#705898",
-  ice: "#98D8D8",
-  dragon: "#7038F8",
-  flying: "#8ce0de",
-  dark: "#705848",
-  steel: "#B8B8D0",
-};
-
-
-//Interface stockant les infos relatives au pokémon
-interface PokeLink {
-  id: number;
-  name: string;
-  sprites: {
-    front_default: string;
-  };
-  types:[{
-    type: {
-      name: string;
-    };
-  }];
-}
-
-//Fonction pour récupérer les infos du pokémon
-async function getPokemonIndic(id: number) {
-  const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-  const result = await pokemon.json() as PokeLink;
-  return result;
-}
-
-//Fonction pour réécrire l'id au format #xxxx
-function formatId(id: number): string {
-  return `#${id.toString().padStart(4, '0')}`
-}
-=======
 import  { typeColors } from './tool';
 import { formatId } from './tool';
 import { getPokemonIndic } from './api';
->>>>>>> 51126e6691e0aa5406c1c123238e61bd0922729d
 
 
 const app = document.querySelector<HTMLDivElement>('#poke-liste')!

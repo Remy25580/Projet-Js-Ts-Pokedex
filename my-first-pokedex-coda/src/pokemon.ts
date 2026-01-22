@@ -1,110 +1,4 @@
 import './style.css'
-<<<<<<< HEAD
-const typeColors: { [key: string]: string } = {
-  grass: "#48d056",
-  fire: "#f03535",
-  water: "#3a9af4",
-  electric: "#ffc62b",
-  poison: "#b046db",
-  bug: "#A8B820",
-  normal: "#aeae93",
-  ground: "#E0C068",
-  fairy: "#EE99AC",
-  fighting: "#C03028",
-  psychic: "#F85888",
-  rock: "#B8A038",
-  ghost: "#705898",
-  ice: "#98D8D8",
-  dragon: "#7038F8",
-  flying: "#8ce0de",
-  dark: "#705848",
-  steel: "#B8B8D0",
-};
-//===================================INTERFACES=======================================//
-
-export interface Pokemon {
-  id: number;
-  name: string;
-  height: number;
-  weight: number;
-  abilities: [{
-    is_hidden: boolean;
-    slot: number;
-    ability: {
-      name: string;
-    };
-  }];
-  moves: [{
-    move: {
-      name: string;
-    };
-  }];
-  sprites: {
-    front_default: string;
-    other: {
-      showdown: {
-        front_default: string;
-      };
-    };
-  };
-  cries: {
-    latest: string;
-  };
-  types:[{
-    type: {
-      name: string;
-    };
-  }];
-  species:{
-    name: string;
-  };
-  stats: [{
-    base_stat: number;
-    stat: {
-      name: string;
-    };  
-  }]
-}
-
-interface Specie {
-  evolution_chain: {
-    url: string;
-  };
-}
-
-interface Evolution {
-  chain: {
-    species: {
-      name: string;
-    };
-    evolves_to: [{
-      species: {
-        name: string;
-      };
-      evolves_to: [{
-        species: {
-          name: string;
-        };
-      }];
-    }];
-  };
-}
-
-interface EvoImages {
-  sprites: {
-    front_default: string;
-  };
-}
-
-//======================================FONCTIONS==========================================//
-
-//Fonction pour récupérer les informations du pokémon ciblé
-async function getPokemon(id: number) {
-  const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-  const result = await pokemon.json() as Pokemon;
-  return result;
-}
-=======
 import { getMinStat } from './tool';
 import { getMaxStat } from './tool';
 import  { typeColors } from './tool';
@@ -112,7 +6,6 @@ import { setGenerationAndGame } from './tool';
 import { getPokemon } from './api';
 import { getEvoChain } from './api';
 import type { EvoImages } from './interface';
->>>>>>> 51126e6691e0aa5406c1c123238e61bd0922729d
 
 //Récupération du pokémon
 const paramsUrl = new URLSearchParams(window.location.search)
@@ -144,23 +37,6 @@ if (title) {
     title.style.color = 'white';
 }
 
-<<<<<<< HEAD
-//fonction de calcul des stats
-
-function getMinStat(base: number, isHP: boolean): number {
-  if (isHP) return Math.floor(2 * base + 110);
-  return Math.floor((2 * base + 5) * 0.9);
-}
-
-function getMaxStat(base: number, isHP: boolean): number {
-  if (isHP) return Math.floor(2 * base + 31 + 63 + 110);
-  return Math.floor((2 * base + 31 + 63 + 5) * 1.1);
-}
-
-//========================INSERTIONS DU CODE HTML====================================//
-
-=======
->>>>>>> 51126e6691e0aa5406c1c123238e61bd0922729d
 app.insertAdjacentHTML("beforeend", `
     <div class="pokemon-container">
       <div class="pokemon-infos">
