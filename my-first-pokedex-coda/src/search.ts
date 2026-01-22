@@ -12,7 +12,7 @@ document.title = `PokSearch: ${search}`
 
 const app = document.querySelector<HTMLDivElement>('#recherche')!
 
-app.innerHTML = `You searched the ${type} ${search}`
+app.innerHTML = `<h3>You searched the ${type} ${search}</h3>`
 
 //Traitement des différents types de recherche
 switch(type){
@@ -120,4 +120,4 @@ switch(type){
         break;
 }
 
-app.insertAdjacentHTML('beforeend', `<h4>Fin de la recherche!</h4>`)
+app.insertAdjacentHTML('beforeend', `<h4>End of your research!</h4>`)
