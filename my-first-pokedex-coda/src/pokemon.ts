@@ -1,4 +1,5 @@
 import './style.css'
+<<<<<<< HEAD
 const typeColors: { [key: string]: string } = {
   grass: "#48d056",
   fire: "#f03535",
@@ -103,6 +104,15 @@ async function getPokemon(id: number) {
   const result = await pokemon.json() as Pokemon;
   return result;
 }
+=======
+import { getMinStat } from './tool';
+import { getMaxStat } from './tool';
+import  { typeColors } from './tool';
+import { setGenerationAndGame } from './tool';
+import { getPokemon } from './api';
+import { getEvoChain } from './api';
+import type { EvoImages } from './interface';
+>>>>>>> 51126e6691e0aa5406c1c123238e61bd0922729d
 
 //Récupération du pokémon
 const paramsUrl = new URLSearchParams(window.location.search)
@@ -113,43 +123,7 @@ if(!idString){
 const id = +idString
 const currentPokemon = await getPokemon(id)
 
-
 document.title = `PokPok - ${currentPokemon.name}`
-
-//Fonction pour récupérer la chaîne d'évolution du pokémon
-async function getEvoChain(id: number) {
-  const specieFetch = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
-  const specie = await specieFetch.json() as Specie
-  
-  const evoChainFetch = await fetch(specie.evolution_chain.url)
-  const evoChain = await evoChainFetch.json() as Evolution
-
-  const chain = [evoChain.chain.species.name]
-  if(evoChain.chain.evolves_to.length > 0){
-    chain.push(evoChain.chain.evolves_to[0].species.name)
-    if(evoChain.chain.evolves_to[0].evolves_to.length > 0){
-      chain.push(evoChain.chain.evolves_to[0].evolves_to[0].species.name)
-    }
-  }
-  console.log(chain)
-  return chain
-}
-
-//Fonction pour prendre le jeu et la génération associé
-function setGenerationAndGame(id: number): string[]{
-  const generations = [
-    { max: 152, data: ["First generation", "Pokemon Red, Blue & Yellow"] },
-    { max: 252, data: ["Second generation", "Pokemon Gold, Silver & Crystal"]},
-    { max: 387, data: ["Third generation", "Pokemon Ruby, Sapphire & Emerald"]},
-    { max: 494, data: ["Fourth generation", "Pokemon Diamond, Pearl & Platinium"]},
-    { max: 650, data: ["Fifth generation", "Pokemon Black & White"]},
-    { max: 722, data: ["Sixth generation", "Pokemon X & Y"]},
-    { max: 810, data: ["Seventh generation", "Pokemon Sun & Moon"]},
-    { max: 906, data: ["Eighth generation", "Pokemon Sword & Shield"]},
-  ]
-  const gen = generations.find(i => id < i.max);
-  return gen ? gen.data : ["Ninth generation", "Pokemon Scarlet & Violet"];
-}
 
 const genAndGame = setGenerationAndGame(id)
 const chain = await getEvoChain(id)
@@ -159,7 +133,7 @@ const app = document.querySelector<HTMLDivElement>("#card")!
 const primaryType = currentPokemon.types[0].type.name;
 
 const mainType = currentPokemon.types[0].type.name;
-    const color = typeColors[mainType] || "";
+const color = typeColors[mainType] || "";
 
 app.className = '';
 app.classList.add(`card-${primaryType}`);
@@ -170,6 +144,7 @@ if (title) {
     title.style.color = 'white';
 }
 
+<<<<<<< HEAD
 //fonction de calcul des stats
 
 function getMinStat(base: number, isHP: boolean): number {
@@ -184,6 +159,8 @@ function getMaxStat(base: number, isHP: boolean): number {
 
 //========================INSERTIONS DU CODE HTML====================================//
 
+=======
+>>>>>>> 51126e6691e0aa5406c1c123238e61bd0922729d
 app.insertAdjacentHTML("beforeend", `
     <div class="pokemon-container">
       <div class="pokemon-infos">

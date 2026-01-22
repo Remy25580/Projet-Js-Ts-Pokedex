@@ -1,4 +1,5 @@
 import './style.css'
+<<<<<<< HEAD
 
 //Définitions des couleurs pour les différents types
 const typeColors: { [key: string]: string } = {
@@ -48,6 +49,11 @@ async function getPokemonIndic(id: number) {
 function formatId(id: number): string {
   return `#${id.toString().padStart(4, '0')}`
 }
+=======
+import  { typeColors } from './tool';
+import { formatId } from './tool';
+import { getPokemonIndic } from './api';
+>>>>>>> 51126e6691e0aa5406c1c123238e61bd0922729d
 
 
 const app = document.querySelector<HTMLDivElement>('#poke-liste')!
@@ -122,9 +128,6 @@ app.addEventListener("click", (event) => {
   window.location.href = `pokemon.html?id=${id}`
 })
 
-/*numérotation + choix des pages, demande moi si tu n'as pas compris ! */
-/* bar pagination est le seul changement que j'ai fais dans index .html !*/
-
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 
 if (page > 1) {
@@ -133,13 +136,8 @@ if (page > 1) {
   `);
 }
 
-/* calcul des nombres avant et apres ici 4 de chaque coté 
-par exemple on aurait : [<, 5, 6, 7, 8, 9, 10, 11, 12, 13, >] */
-
 let pageDebut = Math.max(1, page - 4); 
 let pageFin = Math.min(41, page + 4);
-
-/* on met les num */
 
 for (let num = pageDebut; num <= pageFin; num++) {
   const estPageActive = (num === page) ? 'page-actuelle' : '';
@@ -151,15 +149,11 @@ for (let num = pageDebut; num <= pageFin; num++) {
   `);
 }
 
-
-
 if (page < 41 && page !== 0) {
   conteneurPagination.insertAdjacentHTML("beforeend", `
     <a href="index.html?page=${page + 1}" class="bouton-page">»</a>
   `);
 }
-
-/* bouton pour tout les pokemon */
 
 const estToutAfficherActive = (page === 0) ? 'page-actuelle' : '';
 conteneurPagination.insertAdjacentHTML("beforeend", `
@@ -167,4 +161,3 @@ conteneurPagination.insertAdjacentHTML("beforeend", `
     Tous
   </a>
 `);
-
