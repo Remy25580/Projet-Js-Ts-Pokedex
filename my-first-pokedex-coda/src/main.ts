@@ -1,9 +1,13 @@
 import './style.css'
 import { formatId, typeColors } from './tool';
 import { getPokemonIndic } from './api';
+import { details } from './pokemon';
 
 
 const app = document.querySelector<HTMLDivElement>('#poke-liste')!
+const modal = document.getElementById(`pokemon-modal`)! as HTMLDivElement
+const pokedetails = document.getElementById(`pokemon-details`) as HTMLDivElement
+const closeBtn = document.getElementById("close-modal") as HTMLButtonElement
 
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
@@ -25,7 +29,7 @@ async function pokeLoad(gap: number) {
   for (let i = begin; i < end; i++){
     const pok = await getPokemonIndic(i);
     app.insertAdjacentHTML('beforeend',`
-    <div class="pokemon to-pokemon-page" data-id=${i}>
+    <div id="pokemon-${i}" class="pokemon to-pokemon-page" data-id=${i}>
       <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
       <p>${pok.name}</p>
       <div id="types-${i}" class="types"> </div>
@@ -57,23 +61,50 @@ if(!pageString){
   pageString = "1"
 }
 const page = +pageString
-
 pokeLoad(page);
 
 //Event qui redirige vers la page du pokémon correspondant quand on lui clique dessus
-app.addEventListener("click", (event) => {
-  const target = event.target as HTMLElement;
 
+
+app.addEventListener("click", (event) => {  
+  const target = event.target as HTMLElement;
   const card = target.closest(".to-pokemon-page") as HTMLElement | null
   if(!card){
     return
   }
+  event.stopPropagation()
+
   const id = card.dataset.id;
   if(!id){
     return
   }
-  window.location.href = `pokemon.html?id=${id}`
+
+  console.log(`pokemon ${id} cliqué`)
+  console.log(modal)
+  
+  modal.classList.remove("hidden")
+  document.body.classList.add('modal-open')
+
+  details(+id, pokedetails)
+
 })
+
+const modalContent = modal.querySelector(".modal-content")!
+
+modalContent.addEventListener("click", e => {
+  e.stopPropagation()
+})
+
+closeBtn.addEventListener("click", () => {
+  modal.classList.add("hidden")
+  document.body.classList.remove("modal-open")
+})
+
+modal.addEventListener("click", () => {
+  modal.classList.add("hidden")
+  document.body.classList.remove("modal-open")
+})
+
 
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 

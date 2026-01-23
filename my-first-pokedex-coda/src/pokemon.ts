@@ -1,69 +1,49 @@
 import './style.css'
 import { getMinStat, getMaxStat, setGenerationAndGame, typeColors } from './tool';
 import { getPokemon, getEvoChain } from './api';
-import type { EvoImages } from './interface';
+import type { EvoImages, Pokemon } from './interface';
 
-//Récupération du pokémon
-const paramsUrl = new URLSearchParams(window.location.search)
-const idString = paramsUrl.get("id")
-if(!idString){
-    throw console.error("Impossible de trouver ce pokemon");
-}
-const id = +idString
-const currentPokemon = await getPokemon(id)
-
-document.title = `PokPok - ${currentPokemon.name}`
-
-const genAndGame = setGenerationAndGame(id)
-const chain = await getEvoChain(id)
-
-const app = document.querySelector<HTMLDivElement>("#card")!
-
-const primaryType = currentPokemon.types[0].type.name;
-
-const mainType = currentPokemon.types[0].type.name;
-const color = typeColors[mainType] || "";
-
-app.className = '';
-app.classList.add(`card-${primaryType}`);
-
-const title = app.querySelector('h3');
-if (title) {
-    title.style.textShadow = `0 0 10px var(--neon-color)`;
-    title.style.color = 'white';
-}
-
-let totalBST = 0;
-const statsHTML = currentPokemon.stats.map(s => {
+function stats(currentPokemon: Pokemon, color: string): string[]{
+  let totalBST = 0;
+  const statsHTML = currentPokemon.stats.map(s => {
     const isHP = s.stat.name === 'hp';
     totalBST += s.base_stat;
     const barWidth = (s.base_stat / 255) * 100;
     return `
-        <div class="stat-line">
-            <span class="stat-name">${s.stat.name.toUpperCase()}</span>
-            <span class="stat-value">${s.base_stat}</span>
-            <div class="stat-bar-bg">
-                <div class="stat-bar-fill" style="width: ${barWidth}%; background-color: ${color}"></div>
-            </div>
+      <div class="stat-line">
+          <span class="stat-name">${s.stat.name.toUpperCase()}</span>
+          <span class="stat-value">${s.base_stat}</span>
+          <div class="stat-bar-bg">
+            <div class="stat-bar-fill" style="width: ${barWidth}%; background-color: ${color}"></div>
+          </div>
             <span class="stat-minmax">${getMinStat(s.base_stat, isHP)}</span>
             <span class="stat-minmax">${getMaxStat(s.base_stat, isHP)}</span>
         </div>`;
-}).join('');
-
-let evochain = ``
-for (let evo of chain){
-  let imageFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${evo}/`)
-  let image = await imageFetch.json() as EvoImages
-  evochain = `${evochain}
-  <p> <img src=${image.sprites.front_default} alt=${evo}> </p>
-  <p>${evo}</p>`
+  });
+  return statsHTML
 }
 
-const movesHTML = currentPokemon.moves.map(m => `<span>${m.move.name}</span>`).join(', ');
-const abilitiesHTML = currentPokemon.abilities.map(a => `<p>${a.ability.name}</p>`).join('');
+async function evoChain(chain: string[]): Promise<string>{
+  let evochain = ``
+  for (let evo of chain){
+    let imageFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${evo}/`)
+    let image = await imageFetch.json() as EvoImages
+    evochain = `${evochain}
+    <p> <img src=${image.sprites.front_default} alt=${evo}> </p>
+    <p>${evo}</p>`
+  }
+  return evochain
+}
 
+async function mainInjection(currentPokemon: Pokemon, color: string, id: number): Promise<string>{
+  const genAndGame = setGenerationAndGame(id)
+  const chain = await getEvoChain(id)
+  const evochain = await evoChain(chain)
+  const statsHTML = stats(currentPokemon, color)
+  const movesHTML = currentPokemon.moves.map(m => `<span>${m.move.name}</span>`).join(', ');
+  const abilitiesHTML = currentPokemon.abilities.map(a => `<p>${a.ability.name}</p>`).join('');
 
-app.insertAdjacentHTML("beforeend",`
+  return `
     <div class="pokemon-container">
       <div class="pokemon-infos">
         <h3 style="color: ${color}">${currentPokemon.name}</h3>
@@ -113,17 +93,32 @@ app.insertAdjacentHTML("beforeend",`
         </div>
       </div>
     </div>
-  `)
+  `
+}
 
-const tabs = document.querySelectorAll('.tab-btn');
-const contents = document.querySelectorAll('.tab-content');
+export async function details(id: number, app: HTMLDivElement) {
+  const currentPokemon = await getPokemon(id)
 
-tabs.forEach(btn => {
+  const mainType = currentPokemon.types[0].type.name; //utile
+  const color = typeColors[mainType] || ""; //utile
+
+  const primaryType = currentPokemon.types[0].type.name;
+  app.className = ''; //utile
+  app.classList.add(`card-${primaryType}`);
+  
+  const mainContent = await mainInjection(currentPokemon, color, id)
+  app.innerHTML = mainContent
+
+  const tabs = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(btn => {
     btn.addEventListener('click', () => {
-        tabs.forEach(b => b.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        const target = btn.getAttribute('data-target');
-        document.getElementById(target!)!.classList.add('active');
+      tabs.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const target = btn.getAttribute('data-target');
+      document.getElementById(target!)!.classList.add('active');
     });
-});
+  });
+}
