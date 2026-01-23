@@ -8,7 +8,10 @@ const app = document.querySelector<HTMLDivElement>('#poke-liste')!
 const modal = document.getElementById(`pokemon-modal`)! as HTMLDivElement
 const pokedetails = document.getElementById(`pokemon-details`) as HTMLDivElement
 const closeBtn = document.getElementById("close-modal") as HTMLButtonElement
+const prevButon = document.getElementById("previous-modal") as HTMLButtonElement
+const nextButon = document.getElementById("next-modal") as HTMLButtonElement
 
+let pokemonShown: number
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!; 
@@ -86,6 +89,7 @@ app.addEventListener("click", (event) => {
   document.body.classList.add('modal-open')
 
   details(+id, pokedetails)
+  pokemonShown = +id
 
 })
 
@@ -105,6 +109,27 @@ modal.addEventListener("click", () => {
   document.body.classList.remove("modal-open")
 })
 
+prevButon.addEventListener("click", () => {
+  pokedetails.innerHTML = ""
+  pokemonShown = pokemonShown - 1
+  if(pokemonShown === 0){
+    modal.classList.add("hidden")
+    document.body.classList.remove("modal-open")
+  }else{
+    details(pokemonShown, pokedetails)
+  }
+})
+
+nextButon.addEventListener("click", () => {
+  pokedetails.innerHTML = ""
+  pokemonShown = pokemonShown + 1
+  if(pokemonShown === 1026){
+    modal.classList.add("hidden")
+    document.body.classList.remove("modal-open")
+  }else{
+    details(pokemonShown, pokedetails)
+  }
+})
 
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 
@@ -139,3 +164,4 @@ conteneurPagination.insertAdjacentHTML("beforeend", `
     Tous
   </a>
 `);
+

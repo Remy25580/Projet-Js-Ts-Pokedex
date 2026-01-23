@@ -48,6 +48,54 @@ body{
   z-index: 1000;
 }
 
+#close-modal {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border-radius: 6px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.arrow-button{
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border-radius: 6px;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  transition: 
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
 .modal-content {
   position: relative;
   background: white;
