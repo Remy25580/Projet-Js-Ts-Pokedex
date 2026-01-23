@@ -49,17 +49,17 @@ body{
 }
 
 .modal-content {
+  position: relative;
   background: white;
   padding: 1rem;
   border-radius: 8px;
-  max-width: 500px;
+  max-width: 600px;
   width: 90%;
 }
 
 .hidden {
   display: none;
 }
-
 
 #titre-main-page{
   margin: 10px;
