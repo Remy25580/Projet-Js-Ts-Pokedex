@@ -1,6 +1,6 @@
 import './style.css'
 import { formatId, typeColors } from './tool';
-import { getPokemonIndic } from './api';
+import { getPokemonIndic, getPokemonList } from './api';
 import { details } from './pokemon';
 
 
@@ -10,46 +10,51 @@ const pokedetails = document.getElementById(`pokemon-details`) as HTMLDivElement
 const closeBtn = document.getElementById("close-modal") as HTMLButtonElement
 const prevButon = document.getElementById("previous-modal") as HTMLButtonElement
 const nextButon = document.getElementById("next-modal") as HTMLButtonElement
+const searchBar = document.getElementById("search") as HTMLInputElement
+const barreNav = document.getElementById("barre-pagination")!
+
 
 let pokemonShown: number
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
-const progressText = document.getElementById("progress-text")!; 
+const progressText = document.getElementById("progress-text")!;
+
+let L = await getPokemonList();
 
 //Fonction pour insérer en html les pokémons séléctionés par la page
-async function pokeLoad(gap: number) {
+async function pokeLoad(gap: number, list: string[]) {
   let begin
   let end
 
-  if(gap === 0){
-    begin = 1
-    end = 1026
-  }else{
-    begin = (25*(gap-1)) + 1
-    end = (25*gap) +1
-  }
 
-  for (let i = begin; i < end; i++){
-    const pok = await getPokemonIndic(i);
-    app.insertAdjacentHTML('beforeend',`
-    <div id="pokemon-${i}" class="pokemon to-pokemon-page" data-id=${i}>
+  if (gap === 0) {
+    begin = 1
+    end = list.length + 1
+  } else {
+    begin = (25 * (gap - 1)) + 1
+    end = (25 * gap) + 1
+  } 
+  
+  for(let i = begin; i < end; i++){
+    const pok = await getPokemonIndic(list[i-1]);
+    app.insertAdjacentHTML('beforeend', `
+    <div id="pokemon-${pok.id}" class="pokemon to-pokemon-page" data-id=${pok.id}>
       <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
       <p>${pok.name}</p>
-      <div id="types-${i}" class="types"> </div>
-      <p class="pokemon-id">${formatId(i)}</p>
+      <div id="types-${pok.id}" class="types"> </div>
+      <p class="pokemon-id">${formatId(pok.id)}</p>
     </div>`)
-    
-    for (let type of pok.types){
+
+    for (let type of pok.types) {
       const typeName = type.type.name
       const color = typeColors[typeName] || "";
-      document.querySelector<HTMLDivElement>(`#types-${i}`)!.insertAdjacentHTML('beforeend', `
+      document.querySelector<HTMLDivElement>(`#types-${pok.id}`)!.insertAdjacentHTML('beforeend', `
       <div class="type-badge" style="background-color: ${color}">
         ${typeName}
       </div>`);
     }
-      
-    
-    const percent = Math.round(((i-(begin-1)) / (end-begin)) * 100);
+
+    const percent = Math.round(((i - (begin - 1)) / (end - begin)) * 100);
     progressBar.style.width = `${percent}%`;
     progressText.textContent = `Loading: ${percent}%`;
   }
@@ -60,31 +65,31 @@ async function pokeLoad(gap: number) {
 //récupération de la page dans l'url pour afficher les pokémons
 const paramsUrl = new URLSearchParams(window.location.search)
 let pageString = paramsUrl.get("page")
-if(!pageString){
+if (!pageString) {
   pageString = "1"
 }
-const page = +pageString
-pokeLoad(page);
+let page = +pageString
+pokeLoad(page, L);
 
 //Event qui redirige vers la page du pokémon correspondant quand on lui clique dessus
 
 
-app.addEventListener("click", (event) => {  
+app.addEventListener("click", (event) => {
   const target = event.target as HTMLElement;
   const card = target.closest(".to-pokemon-page") as HTMLElement | null
-  if(!card){
+  if (!card) {
     return
   }
   event.stopPropagation()
 
   const id = card.dataset.id;
-  if(!id){
+  if (!id) {
     return
   }
 
   console.log(`pokemon ${id} cliqué`)
   console.log(modal)
-  
+
   modal.classList.remove("hidden")
   document.body.classList.add('modal-open')
 
@@ -112,10 +117,10 @@ modal.addEventListener("click", () => {
 prevButon.addEventListener("click", () => {
   pokedetails.innerHTML = ""
   pokemonShown = pokemonShown - 1
-  if(pokemonShown === 0){
+  if (pokemonShown === 0) {
     modal.classList.add("hidden")
     document.body.classList.remove("modal-open")
-  }else{
+  } else {
     details(pokemonShown, pokedetails)
   }
 })
@@ -123,13 +128,34 @@ prevButon.addEventListener("click", () => {
 nextButon.addEventListener("click", () => {
   pokedetails.innerHTML = ""
   pokemonShown = pokemonShown + 1
-  if(pokemonShown === 1026){
+  if (pokemonShown === 1026) {
     modal.classList.add("hidden")
     document.body.classList.remove("modal-open")
-  }else{
+  } else {
     details(pokemonShown, pokedetails)
   }
 })
+
+searchBar.addEventListener('input', () => {
+  app.innerHTML= ``
+  const querry = searchBar.value.toLowerCase()
+  let filteredL
+  if (querry !== ''){
+    const reg = new RegExp(`^${querry}`, 'i')
+    filteredL = L.filter((name: string) => reg.test(name))
+    page = 0
+    barreNav.classList.add("hidden")
+  }else{
+    filteredL = L
+    page = 1
+    barreNav.classList.remove("hidden")
+  }
+  console.log(filteredL)
+  document.getElementById("searching")!.classList.remove("hidden")
+  pokeLoad(page, filteredL)
+  document.getElementById("searching")!.classList.add("hidden")
+})
+
 
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 
@@ -139,12 +165,12 @@ if (page > 1) {
   `);
 }
 
-let pageDebut = Math.max(1, page - 4); 
+let pageDebut = Math.max(1, page - 4);
 let pageFin = Math.min(41, page + 4);
 
 for (let num = pageDebut; num <= pageFin; num++) {
   const estPageActive = (num === page) ? 'page-actuelle' : '';
-  
+
   conteneurPagination.insertAdjacentHTML("beforeend", `
     <a href="index.html?page=${num}" class="bouton-page ${estPageActive}">
       ${num}
@@ -164,4 +190,3 @@ conteneurPagination.insertAdjacentHTML("beforeend", `
     Tous
   </a>
 `);
-

@@ -1,5 +1,5 @@
 import './style.css'
-import { searchByAbility, searchByGeneration, searchById, searchByName, searchByType } from './api'
+import { searchByAbility, searchByGeneration, searchById, searchByType } from './api'
 import { setGenName } from './tool'
 
 
@@ -16,18 +16,6 @@ app.innerHTML = `<h3>You searched the ${type} ${search}</h3>`
 
 //Traitement des différents types de recherche
 switch(type){
-    case 'name':
-        for(let i = 1; i < 1026; i++){
-            let name = await searchByName(i)
-            if(name.name.startsWith(search)){
-                app.insertAdjacentHTML('beforeend', `
-                    <div class="searched-by-name">
-                        <img src=${name.sprites.front_default} alt=${name.name}>
-                        <a href='pokemon.html?id=${i}'>${name.name}</a>
-                    </div>`)
-            }
-        }
-        break;
     case 'id':
         for (let i = 1; i < 1026; i++){
             let id = await searchById(i)
@@ -36,7 +24,7 @@ switch(type){
                     <div class="searched-by-id">
                         <p>${id.id} : </p>
                         <img src=${id.sprites.front_default} alt=${id.name}>
-                        <a href='pokemon.html?id=${i}'>${id.name}</a>
+                        <a href='index.html?page=${Math.ceil(i/25)}'>${id.name}</a>
                     </div>`)
             }
         }
@@ -55,9 +43,10 @@ switch(type){
                         if(t.pokemon.url.slice(34).length < 6){
                             document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
-                                    <a href='pokemon.html?id=${t.pokemon.url.slice(34, t.pokemon.url.length-1)}'>${t.pokemon.name}</a>
+                                    <a href='index.html?page=${Math.ceil(+(t.pokemon.url.slice(34,t.pokemon.url.length-1))/25)}'>${t.pokemon.name}</a>
                                 </div>
                                 `)
+                                console.log(t.pokemon.url.slice(33,t.pokemon.url.length-1))
                         }else{
                             document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
@@ -86,8 +75,9 @@ switch(type){
                         if(a.pokemon.url.slice(34).length < 6){
                             document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
-                                    <a href='pokemon.html?id=${a.pokemon.url.slice(34, a.pokemon.url.length-1)}'>${a.pokemon.name}</a>
+                                    <a href='index.html?page=${Math.ceil(+(a.pokemon.url.slice(34,a.pokemon.url.length-1))/25)}'>${a.pokemon.name}</a>
                                 </div>`)
+                                
                         }else{
                             document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
@@ -112,7 +102,7 @@ switch(type){
         for(let p of gen.pokemon_species){
             document.querySelector<HTMLDivElement>('.searched-by-gen')!.insertAdjacentHTML('beforeend', `
                 <div>
-                    <a href='pokemon.html?id=${p.url.slice(42, p.url.length-1)}'>${p.name}</a>
+                    <a href='index.html?page=${Math.ceil(+(p.url.slice(42,p.url.length-1))/25)}'>${p.name}</a>
                 </div>`)
         }
         break;

@@ -1,3 +1,7 @@
+export interface PokeNames {
+  name: string;
+}
+
 export interface PokeLink {
   id: number;
   name: string;
@@ -93,7 +97,7 @@ export interface NameId {
     };
 }
 
-export interface TypeAbility {
+export interface  TypeAbility {
     name: string;
     pokemon: [{
         pokemon: {

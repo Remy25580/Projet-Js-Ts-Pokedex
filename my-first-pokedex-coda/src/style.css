@@ -2,6 +2,25 @@ body{
   background-color: #1e293b;
 }
 
+.card-grass { --neon-color: #35e85e; }
+.card-fire { --neon-color: #f82222}
+.card-water { --neon-color: #43a0f2}
+.card-bug { --neon-color: #96a040}
+.card-normal { --neon-color: #b8b89d}
+.card-electric { --neon-color: #fae034}
+.card-poison { --neon-color: #A040A0}
+.card-ground { --neon-color: #e08e68}
+.card-fairy { --neon-color: #EE99AC}
+.card-fighting { --neon-color: #C03028}
+.card-psychic { --neon-color: #F85888}
+.card-rock { --neon-color: #B8A038}
+.card-ghost { --neon-color: #705898}
+.card-ice { --neon-color: #98D8D8}
+.card-dragon { --neon-color: #7038F8}
+.card-dark {--neon-color: #705848}
+.card-steel {--neon-color: #B8B8D0}
+
+
 #gif-chargement{
   width: 140px;
   height: auto;
@@ -73,12 +92,29 @@ body{
     box-shadow 0.2s ease,
     border-color 0.2s ease,
     transform 0.15s ease;
+  
+  border: 1px solid var(--neon-color, #fff);
+    box-shadow: 
+        0 0 5px #fff,
+        0 0 10px var(--neon-color, #08f),
+        inset 0 0 5px var(--neon-color, #08f);
+    
+    transition: all 0.4s ease-in-out;
+  border-radius: 1px;
+}
+
+#navigation{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-top: 15px;
 }
 
 .arrow-button{
   width: 24px;
   height: 24px;
 
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,11 +130,20 @@ body{
     box-shadow 0.2s ease,
     border-color 0.2s ease,
     transform 0.15s ease;
+
+  border: 1px solid var(--neon-color, #fff);
+    box-shadow: 
+        0 0 5px #fff,
+        0 0 10px var(--neon-color, #08f),
+        inset 0 0 5px var(--neon-color, #08f);
+    
+    transition: all 0.4s ease-in-out;
+  border-radius: 1px;
 }
 
 .modal-content {
   position: relative;
-  background: white;
+  background-color:  #0f172a;
   padding: 1rem;
   border-radius: 8px;
   max-width: 600px;
@@ -306,23 +351,6 @@ body{
     cursor: default;
 }  
 
-.card-grass { --neon-color: #35e85e; }
-.card-fire { --neon-color: #f82222}
-.card-water { --neon-color: #43a0f2}
-.card-bug { --neon-color: #96a040}
-.card-normal { --neon-color: #b8b89d}
-.card-electric { --neon-color: #fae034}
-.card-poison { --neon-color: #A040A0}
-.card-ground { --neon-color: #e08e68}
-.card-fairy { --neon-color: #EE99AC}
-.card-fighting { --neon-color: #C03028}
-.card-psychic { --neon-color: #F85888}
-.card-rock { --neon-color: #B8A038}
-.card-ghost { --neon-color: #705898}
-.card-ice { --neon-color: #98D8D8}
-.card-dragon { --neon-color: #7038F8}
-.card-dark {--neon-color: #705848}
-.card-steel {--neon-color: #B8B8D0}
 
 .pokecard {
   display: flex;
@@ -356,7 +384,8 @@ body{
 .pokemon-container {
   display: flex;          
   justify-content: space-between; 
-  align-items: center;     
+  align-items: center;    
+  background-color:  #0f172a; 
 }
 
 .pokemon-infos {

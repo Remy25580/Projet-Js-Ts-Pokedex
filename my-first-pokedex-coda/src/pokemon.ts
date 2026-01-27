@@ -11,13 +11,13 @@ function stats(currentPokemon: Pokemon, color: string): string[]{
     const barWidth = (s.base_stat / 255) * 100;
     return `
       <div class="stat-line">
-          <span class="stat-name">${s.stat.name.toUpperCase()}</span>
-          <span class="stat-value">${s.base_stat}</span>
+          <span style="color: ${color}" class="stat-name">${s.stat.name.toUpperCase()}</span>
+          <span style="color: ${color}" class="stat-value">${s.base_stat}</span>
           <div class="stat-bar-bg">
             <div class="stat-bar-fill" style="width: ${barWidth}%; background-color: ${color}"></div>
           </div>
-            <span class="stat-minmax">${getMinStat(s.base_stat, isHP)}</span>
-            <span class="stat-minmax">${getMaxStat(s.base_stat, isHP)}</span>
+            <span style="color: ${color}" class="stat-minmax">${getMinStat(s.base_stat, isHP)}</span>
+            <span style="color: ${color}" class="stat-minmax">${getMaxStat(s.base_stat, isHP)}</span>
         </div>`;
   });
   return statsHTML
@@ -40,8 +40,13 @@ async function mainInjection(currentPokemon: Pokemon, color: string, id: number)
   const chain = await getEvoChain(id)
   const evochain = await evoChain(chain)
   const statsHTML = stats(currentPokemon, color)
-  const movesHTML = currentPokemon.moves.map(m => `<span>${m.move.name}</span>`).join(', ');
-  const abilitiesHTML = currentPokemon.abilities.map(a => `<p>${a.ability.name}</p>`).join('');
+  const movesHTML = currentPokemon.moves.map(m => `<span style="color: ${color}">${m.move.name}</span>`).join(' ');
+  const abilitiesHTML = currentPokemon.abilities.map(a => `<p style="color: ${color}">${a.ability.name}</p>`).join('');
+  let image = currentPokemon.sprites.front_default
+  if(currentPokemon.sprites.other.showdown.front_default){
+    image = currentPokemon.sprites.other.showdown.front_default;
+  }
+
 
   return `
     <div class="pokemon-container">
@@ -89,7 +94,7 @@ async function mainInjection(currentPokemon: Pokemon, color: string, id: number)
 
 
         <div class="pokecard">
-          <img class="pokpokimage" src="${currentPokemon.sprites.other.showdown.front_default}" alt="${currentPokemon.name}">
+          <img class="pokpokimage" src="${image}" alt="${currentPokemon.name}">
         </div>
       </div>
     </div>

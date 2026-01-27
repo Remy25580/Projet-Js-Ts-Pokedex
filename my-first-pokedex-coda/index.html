@@ -18,25 +18,29 @@
     <h1 id="titre-main-page"><img src="/PokPokLogo.png" alt="logo de PokPok"> <em>PokPok</em></h1>
     <h3 id="sous-titre-main-page"><em>Welcome on PokPok!</em></h3>
 
-    <form class="search-bar" action="search.html" method="get">
-      <input type="search" name="search" placeholder="Enter a name . . ." required>
-      <select name="type">
-        <option value="name">Name</option>
+    <form id="search-bar" class="search-bar" action="search.html" method="get">
+      <input type="search" id="search" name="search" placeholder="Type your research. . ." required>
+      <select id="type-search" name="type">
         <option value="id">Id</option>
         <option value="type">Type</option>
         <option value="ability">Ability</option>
         <option value="generation">Generation</option>
       </select>
-      <button type="submit">Research</button>
+      <button type="submit">Advanced research</button>
     </form>
 
     <div class="container" id="poke-liste"></div>
+
+    <div id="searching" class="hidden">Searching. . . </div>
+
     <div id="pokemon-modal" class="modal hidden">
       <div class="modal-content">
         <button id="close-modal">✖</button>
         <div id="pokemon-details"></div>
-        <button id="previous-modal" class="arrow-button">❮</button>
-        <button id="next-modal" class="arrow-button">❯</button>
+        <div id="navigation">
+          <div><button id="previous-modal" class="arrow-button">❮</button></div>
+          <div><button id="next-modal" class="arrow-button">❯</button></div>
+        </div>
       </div>
     </div>
 

@@ -1,8 +1,17 @@
-import type { PokeLink, Pokemon, Specie, Evolution, NameId, TypeAbility, Generation } from "./interface";
+import type { PokeNames, PokeLink, Pokemon, Specie, Evolution, NameId, TypeAbility, Generation } from "./interface";
 
+export async function getPokemonList(){
+  let list = []
+  for (let i = 1; i < 1026; i++){
+    let pfetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
+    let pdata = await pfetch.json() as PokeNames
+    list.push(pdata.name)
+  }
+  return list
+}
 
-export async function getPokemonIndic(id: number) {
-  const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
+export async function getPokemonIndic(name: string) {
+  const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`)
   const result = await pokemon.json() as PokeLink;
   return result;
 }
@@ -30,11 +39,6 @@ export async function getEvoChain(id: number) {
   return chain
 }
 
-export async function searchByName(id: number): Promise<NameId>{
-    const nameFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-    const nameValue = await nameFetch.json() as NameId
-    return nameValue
-}
 
 export async function searchById(id: number): Promise<NameId>{
     let idFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
