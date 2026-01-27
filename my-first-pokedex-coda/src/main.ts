@@ -21,6 +21,7 @@ const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!;
 
 let L = (await getPokemonList()).results;
+let hasToBeShown = sessionStorage.getItem('id')
 
 //Fonction pour insérer en html les pokémons séléctionés par la page
 async function pokeLoad(gap: number, list: { name: string }[]) {
@@ -107,6 +108,16 @@ let page = +pageString
 pokeLoad(page, L);
 injectNavigation();
 
+if(hasToBeShown){
+  console.log(hasToBeShown)
+  modal.classList.remove("hidden")
+  document.body.classList.add('modal-open')
+
+  details(+hasToBeShown, pokedetails)
+  pokemonShown = +hasToBeShown
+  sessionStorage.clear()
+}
+
 //Event qui redirige vers la page du pokémon correspondant quand on lui clique dessus
 
 
@@ -122,9 +133,6 @@ app.addEventListener("click", (event) => {
   if (!id) {
     return
   }
-
-  console.log(`pokemon ${id} cliqué`)
-  console.log(modal)
 
   modal.classList.remove("hidden")
   document.body.classList.add('modal-open')

@@ -24,7 +24,7 @@ switch(type){
                     <div class="searched-by-id">
                         <p>${id.id} : </p>
                         <img src=${id.sprites.front_default} alt=${id.name}>
-                        <a href='index.html?page=${Math.ceil(i/25)}'>${id.name}</a>
+                        <a href='index.html?page=${Math.ceil(i/25)}' data-id=${i} class="link-to-pokemon">${id.name}</a>
                     </div>`)
             }
         }
@@ -43,10 +43,9 @@ switch(type){
                         if(t.pokemon.url.slice(34).length < 6){
                             document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
-                                    <a href='index.html?page=${Math.ceil(+(t.pokemon.url.slice(34,t.pokemon.url.length-1))/25)}'>${t.pokemon.name}</a>
+                                    <a href='index.html?page=${Math.ceil(+(t.pokemon.url.slice(34,t.pokemon.url.length-1))/25)}' class="link-to-pokemon" data-id=${t.pokemon.url.slice(34,t.pokemon.url.length-1)}>${t.pokemon.name}</a>
                                 </div>
                                 `)
-                                console.log(t.pokemon.url.slice(33,t.pokemon.url.length-1))
                         }else{
                             document.querySelector<HTMLDivElement>(`#type-searched-${type.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
@@ -75,7 +74,7 @@ switch(type){
                         if(a.pokemon.url.slice(34).length < 6){
                             document.querySelector<HTMLDivElement>(`#ability-searched-${ab.name}`)!.insertAdjacentHTML('beforeend', `
                                 <div>
-                                    <a href='index.html?page=${Math.ceil(+(a.pokemon.url.slice(34,a.pokemon.url.length-1))/25)}'>${a.pokemon.name}</a>
+                                    <a href='index.html?page=${Math.ceil(+(a.pokemon.url.slice(34,a.pokemon.url.length-1))/25)}' class="link-to-pokemon" data-id=${a.pokemon.url.slice(34,a.pokemon.url.length-1)}>${a.pokemon.name}</a>
                                 </div>`)
                                 
                         }else{
@@ -87,6 +86,7 @@ switch(type){
                     }
                 }      
             }
+            console.log(ab.name)
         }
         break;
     case 'generation':
@@ -102,7 +102,7 @@ switch(type){
         for(let p of gen.pokemon_species){
             document.querySelector<HTMLDivElement>('.searched-by-gen')!.insertAdjacentHTML('beforeend', `
                 <div>
-                    <a href='index.html?page=${Math.ceil(+(p.url.slice(42,p.url.length-1))/25)}'>${p.name}</a>
+                    <a href='index.html?page=${Math.ceil(+(p.url.slice(42,p.url.length-1))/25)}' class="link-to-pokemon" data-id=${p.url.slice(42,p.url.length-1)}>${p.name}</a>
                 </div>`)
         }
         break;
@@ -111,3 +111,11 @@ switch(type){
 }
 
 app.insertAdjacentHTML('beforeend', `<h4>End of your research!</h4>`)
+
+document.querySelectorAll<HTMLAnchorElement>(".link-to-pokemon")!.forEach(link => {
+    link.addEventListener('click', () => {
+        const id = link.dataset.id!
+        sessionStorage.setItem('id', id)
+        console.log(`affichage du pokemon ${id}`)
+    })
+})
