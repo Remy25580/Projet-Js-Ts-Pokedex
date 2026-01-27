@@ -11,18 +11,19 @@ const closeBtn = document.getElementById("close-modal") as HTMLButtonElement
 const prevButon = document.getElementById("previous-modal") as HTMLButtonElement
 const nextButon = document.getElementById("next-modal") as HTMLButtonElement
 const searchBar = document.getElementById("search") as HTMLInputElement
-const barreNav = document.getElementById("barre-pagination")!
+const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 
+let debounceTimer: number
 
 let pokemonShown: number
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!;
 
-let L = await getPokemonList();
+let L = (await getPokemonList()).results;
 
 //Fonction pour insérer en html les pokémons séléctionés par la page
-async function pokeLoad(gap: number, list: string[]) {
+async function pokeLoad(gap: number, list: { name: string }[]) {
   let begin
   let end
 
@@ -36,7 +37,7 @@ async function pokeLoad(gap: number, list: string[]) {
   } 
   
   for(let i = begin; i < end; i++){
-    const pok = await getPokemonIndic(list[i-1]);
+    const pok = await getPokemonIndic(list[i-1].name);
     app.insertAdjacentHTML('beforeend', `
     <div id="pokemon-${pok.id}" class="pokemon to-pokemon-page" data-id=${pok.id}>
       <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
@@ -62,6 +63,40 @@ async function pokeLoad(gap: number, list: string[]) {
   loader.remove();
 }
 
+function injectNavigation(){
+  if (page > 1) {
+    conteneurPagination.insertAdjacentHTML("beforeend", `
+      <a href="index.html?page=${page - 1}" class="bouton-page">«</a>
+    `);
+  }
+
+  let pageDebut = Math.max(1, page - 4);
+  let pageFin = Math.min(41, page + 4);
+
+  for (let num = pageDebut; num <= pageFin; num++) {
+    const estPageActive = (num === page) ? 'page-actuelle' : '';
+
+    conteneurPagination.insertAdjacentHTML("beforeend", `
+      <a href="index.html?page=${num}" class="bouton-page ${estPageActive}">
+        ${num}
+      </a>
+    `);
+  }
+
+  if (page < 41 && page !== 0) {
+    conteneurPagination.insertAdjacentHTML("beforeend", `
+      <a href="index.html?page=${page + 1}" class="bouton-page">»</a>
+    `);
+  }
+
+  const estToutAfficherActive = (page === 0) ? 'page-actuelle' : '';
+  conteneurPagination.insertAdjacentHTML("beforeend", `
+    <a href="index.html?page=0" class="bouton-page ${estToutAfficherActive}" style="width: auto; padding: 0 12px;">
+      All
+    </a>
+  `);
+}
+
 //récupération de la page dans l'url pour afficher les pokémons
 const paramsUrl = new URLSearchParams(window.location.search)
 let pageString = paramsUrl.get("page")
@@ -70,6 +105,7 @@ if (!pageString) {
 }
 let page = +pageString
 pokeLoad(page, L);
+injectNavigation();
 
 //Event qui redirige vers la page du pokémon correspondant quand on lui clique dessus
 
@@ -137,56 +173,23 @@ nextButon.addEventListener("click", () => {
 })
 
 searchBar.addEventListener('input', () => {
-  app.innerHTML= ``
-  const querry = searchBar.value.toLowerCase()
-  let filteredL
-  if (querry !== ''){
-    const reg = new RegExp(`^${querry}`, 'i')
-    filteredL = L.filter((name: string) => reg.test(name))
-    page = 0
-    barreNav.classList.add("hidden")
-  }else{
-    filteredL = L
-    page = 1
-    barreNav.classList.remove("hidden")
-  }
-  console.log(filteredL)
-  document.getElementById("searching")!.classList.remove("hidden")
-  pokeLoad(page, filteredL)
-  document.getElementById("searching")!.classList.add("hidden")
+  clearTimeout(debounceTimer)
+
+  debounceTimer = window.setTimeout(() => {
+    app.innerHTML= ``
+      const querry = searchBar.value.toLowerCase()
+      let filteredL
+      if (querry !== ''){
+        const reg = new RegExp(`^${querry}`, 'i')
+        filteredL = L.filter((name) => reg.test(name.name))
+        page = 0
+        pokeLoad(0, filteredL)
+        conteneurPagination.innerHTML = ``
+      }else{
+        filteredL = L
+        page = 1
+        pokeLoad(page, filteredL)
+        injectNavigation()
+      }
+  }, 250)
 })
-
-
-const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
-
-if (page > 1) {
-  conteneurPagination.insertAdjacentHTML("beforeend", `
-    <a href="index.html?page=${page - 1}" class="bouton-page">«</a>
-  `);
-}
-
-let pageDebut = Math.max(1, page - 4);
-let pageFin = Math.min(41, page + 4);
-
-for (let num = pageDebut; num <= pageFin; num++) {
-  const estPageActive = (num === page) ? 'page-actuelle' : '';
-
-  conteneurPagination.insertAdjacentHTML("beforeend", `
-    <a href="index.html?page=${num}" class="bouton-page ${estPageActive}">
-      ${num}
-    </a>
-  `);
-}
-
-if (page < 41 && page !== 0) {
-  conteneurPagination.insertAdjacentHTML("beforeend", `
-    <a href="index.html?page=${page + 1}" class="bouton-page">»</a>
-  `);
-}
-
-const estToutAfficherActive = (page === 0) ? 'page-actuelle' : '';
-conteneurPagination.insertAdjacentHTML("beforeend", `
-  <a href="index.html?page=0" class="bouton-page ${estToutAfficherActive}" style="width: auto; padding: 0 12px;">
-    Tous
-  </a>
-`);

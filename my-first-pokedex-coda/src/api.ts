@@ -1,13 +1,9 @@
 import type { PokeNames, PokeLink, Pokemon, Specie, Evolution, NameId, TypeAbility, Generation } from "./interface";
 
 export async function getPokemonList(){
-  let list = []
-  for (let i = 1; i < 1026; i++){
-    let pfetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-    let pdata = await pfetch.json() as PokeNames
-    list.push(pdata.name)
-  }
-  return list
+  let pfetch = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=1025`)
+  let pdata = await pfetch.json() as PokeNames
+  return pdata
 }
 
 export async function getPokemonIndic(name: string) {

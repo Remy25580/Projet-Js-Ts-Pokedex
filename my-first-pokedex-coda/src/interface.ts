@@ -1,5 +1,7 @@
 export interface PokeNames {
-  name: string;
+  results: [{
+    name: string;
+  }];
 }
 
 export interface PokeLink {
