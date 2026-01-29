@@ -1,3 +1,5 @@
+import { getPokemonsForTeams } from "./api";
+
 export function getMinStat(base: number, isHP: boolean): number {
   if (isHP) return Math.floor(2 * base + 110);
   return Math.floor((2 * base + 5) * 0.9);
@@ -59,4 +61,39 @@ export function setGenName(id: number): string {
         "ninth"
     ]
     return generations[id-1];
+}
+
+export function setLocalStorage(){
+  localStorage.setItem('nb', '0')
+  localStorage.setItem('firstTeam', '')
+  localStorage.setItem('secondTeam', '')
+  localStorage.setItem('thirdTeam', '')
+  localStorage.setItem('fourthTeam', '')
+  localStorage.setItem('fifthTeam', '')
+}
+
+export function createTeamList(viewOrSelect: string){
+  const teams = [localStorage.getItem('firstTeam'),localStorage.getItem('secondTeam'),localStorage.getItem('thirdTeam'),localStorage.getItem('fourthTeam'),localStorage.getItem('fifthTeam')]
+  let selector = ``
+  if(viewOrSelect === "select"){
+    selector = `<input type="checkbox">`
+  }
+  for(let team of teams){
+    let content = selector
+    if(team){
+      for(let pokemon of team.split('/')){
+        if(pokemon){
+          let img = getPokemonsForTeams(+pokemon)
+          content = `${content} ${img}`
+        }
+      }
+    }else{
+      content = `${content} Empty team`
+    }
+    document.querySelector<HTMLDivElement>('#teamList-content')!.insertAdjacentHTML('beforeend', `<div class="team">
+        ${content}
+      </div>
+      `)
+  }
+
 }

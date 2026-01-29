@@ -1,4 +1,4 @@
-import type { PokeNames, PokeLink, Pokemon, Specie, Evolution, NameId, TypeAbility, Generation } from "./interface";
+import type { PokeNames, PokeLink, Pokemon, Specie, Evolution, NameId, TypeAbility, Generation, Pokeimage } from "./interface";
 
 export async function getPokemonList(){
   let pfetch = await fetch(`https://pokeapi.co/api/v2/pokemon/?limit=1025`)
@@ -58,4 +58,10 @@ export async function searchByGeneration(id: number): Promise<Generation>{
     const genFetch = await fetch(`https://pokeapi.co/api/v2/generation/${id}`)
     const genValue = await genFetch.json() as Generation
     return genValue
+}
+
+export async function getPokemonsForTeams(id: number) {
+  const imgFetch = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+  const img = await imgFetch.json() as Pokeimage
+  return img
 }

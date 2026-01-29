@@ -1,5 +1,5 @@
 import './style.css'
-import { formatId, typeColors } from './tool';
+import { formatId, typeColors, setLocalStorage, createTeamList } from './tool';
 import { getPokemonIndic, getPokemonList } from './api';
 import { details } from './pokemon';
 
@@ -13,13 +13,20 @@ const nextButon = document.getElementById("next-modal") as HTMLButtonElement
 const searchBar = document.getElementById("search") as HTMLInputElement
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
-
 let debounceTimer: number
-
 let pokemonShown: number
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!;
+
+if(!localStorage.getItem('nb')){
+  setLocalStorage()
+}
+let numberOfTeams = localStorage.getItem('nb')!
+console.log(numberOfTeams)
+if(+numberOfTeams !== 0){
+  document.getElementById("teams")!.classList.remove("hidden")
+}
 
 let L = (await getPokemonList()).results;
 let hasToBeShown = sessionStorage.getItem('id')
@@ -208,4 +215,11 @@ teamCreator.addEventListener('click', () => {
   document.querySelectorAll<HTMLInputElement>(".addToTeam").forEach((checkbox) => {
     checkbox.classList.remove("hidden")
   })
+  document.querySelector<HTMLDivElement>('#teamList-content')!.innerHTML = ''
+  createTeamList('select')
+  document.querySelector<HTMLDivElement>('#teamList')!.classList.remove("hidden")
+  /*let temp = +numberOfTeams
+  temp++
+  localStorage.setItem('nb', temp.toString())
+  numberOfTeams = localStorage.getItem('nb')!*/
 })

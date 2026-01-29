@@ -115,3 +115,9 @@ export interface Generation {
         url: string;
     }];
 }
+
+export interface Pokeimage{
+  sprites: {
+    front_default: string;
+  };
+}
