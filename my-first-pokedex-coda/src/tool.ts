@@ -75,10 +75,11 @@ export function setLocalStorage(){
 export function createTeamList(viewOrSelect: string){
   const teams = [localStorage.getItem('firstTeam'),localStorage.getItem('secondTeam'),localStorage.getItem('thirdTeam'),localStorage.getItem('fourthTeam'),localStorage.getItem('fifthTeam')]
   let selector = ``
-  if(viewOrSelect === "select"){
-    selector = `<input type="checkbox">`
-  }
+  let i = 1
   for(let team of teams){
+    if(viewOrSelect === 'select'){
+      selector = `<input type="radio", name="choice", value=${i}>`
+    }
     let content = selector
     if(team){
       for(let pokemon of team.split('/')){
@@ -94,6 +95,7 @@ export function createTeamList(viewOrSelect: string){
         ${content}
       </div>
       `)
+    i++
   }
 
 }
