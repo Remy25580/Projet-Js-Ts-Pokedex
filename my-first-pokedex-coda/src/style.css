@@ -1,285 +1,316 @@
-body{
-  background-color: #1e293b;
+body {
+    background-color: #1e293b;
 }
 
-.card-grass { --neon-color: #35e85e; }
-.card-fire { --neon-color: #f82222}
-.card-water { --neon-color: #43a0f2}
-.card-bug { --neon-color: #96a040}
-.card-normal { --neon-color: #b8b89d}
-.card-electric { --neon-color: #fae034}
-.card-poison { --neon-color: #A040A0}
-.card-ground { --neon-color: #e08e68}
-.card-fairy { --neon-color: #EE99AC}
-.card-fighting { --neon-color: #C03028}
-.card-psychic { --neon-color: #F85888}
-.card-rock { --neon-color: #B8A038}
-.card-ghost { --neon-color: #705898}
-.card-ice { --neon-color: #98D8D8}
-.card-dragon { --neon-color: #7038F8}
-.card-dark {--neon-color: #705848}
-.card-steel {--neon-color: #B8B8D0}
+.card-grass {
+    --neon-color: #35e85e;
+}
+.card-fire {
+    --neon-color: #f82222;
+}
+.card-water {
+    --neon-color: #43a0f2;
+}
+.card-bug {
+    --neon-color: #96a040;
+}
+.card-normal {
+    --neon-color: #b8b89d;
+}
+.card-electric {
+    --neon-color: #fae034;
+}
+.card-poison {
+    --neon-color: #a040a0;
+}
+.card-ground {
+    --neon-color: #e08e68;
+}
+.card-fairy {
+    --neon-color: #ee99ac;
+}
+.card-fighting {
+    --neon-color: #c03028;
+}
+.card-psychic {
+    --neon-color: #f85888;
+}
+.card-rock {
+    --neon-color: #b8a038;
+}
+.card-ghost {
+    --neon-color: #705898;
+}
+.card-ice {
+    --neon-color: #98d8d8;
+}
+.card-dragon {
+    --neon-color: #7038f8;
+}
+.card-dark {
+    --neon-color: #705848;
+}
+.card-steel {
+    --neon-color: #b8b8d0;
+}
 
-
-#gif-chargement{
-  width: 140px;
-  height: auto;
+#gif-chargement {
+    width: 140px;
+    height: auto;
 }
 
 #loader {
-  position: fixed;
-  inset: 0;
-  background: #0f172a;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  z-index: 9999;
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    z-index: 9999;
 }
 
 .progress {
-  width: 300px;
-  height: 10px;
-  background: #334155;
-  border-radius: 5px;
-  overflow: hidden;
+    width: 300px;
+    height: 10px;
+    background: #334155;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .progress-bar {
-  width: 0%;
-  height: 100%;
-  background: #22c55e;
-  transition: width 0.2s ease;
+    width: 0%;
+    height: 100%;
+    background: #22c55e;
+    transition: width 0.2s ease;
 }
 
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 #close-modal {
-  position: absolute;
-  top: 8px;
-  left: 8px;
+    position: absolute;
+    top: 8px;
+    left: 8px;
 
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  background: transparent;
-  border-radius: 6px;
+    background: transparent;
+    border-radius: 6px;
 
-  font-size: 18px;
-  font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  transition: 
-    color 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.15s ease;
-  
-  border: 1px solid var(--neon-color, #fff);
-    box-shadow: 
+    transition:
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+
+    border: 1px solid var(--neon-color, #fff);
+    box-shadow:
         0 0 5px #fff,
         0 0 10px var(--neon-color, #08f),
         inset 0 0 5px var(--neon-color, #08f);
-    
+
     transition: all 0.4s ease-in-out;
-  border-radius: 1px;
+    border-radius: 1px;
 }
 
-#navigation{
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin-top: 15px;
+#navigation {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 15px;
 }
 
-.arrow-button{
-  width: 24px;
-  height: 24px;
+.arrow-button {
+    width: 24px;
+    height: 24px;
 
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  background: transparent;
-  border-radius: 6px;
+    background: transparent;
+    border-radius: 6px;
 
-  font-size: 18px;
-  font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 
-  transition: 
-    color 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.15s ease;
+    transition:
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
 
-  border: 1px solid var(--neon-color, #fff);
-    box-shadow: 
+    border: 1px solid var(--neon-color, #fff);
+    box-shadow:
         0 0 5px #fff,
         0 0 10px var(--neon-color, #08f),
         inset 0 0 5px var(--neon-color, #08f);
-    
+
     transition: all 0.4s ease-in-out;
-  border-radius: 1px;
+    border-radius: 1px;
 }
 
 .modal-content {
-  position: relative;
-  background-color:  #0f172a;
-  padding: 1rem;
-  border-radius: 8px;
-  max-width: 600px;
-  width: 90%;
+    position: relative;
+    background-color: #0f172a;
+    padding: 1rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
-#titre-main-page{
-  margin: 10px;
-  margin-left: 10%;
-  margin-bottom: 0px;
-  font-size: 80px;
+#titre-main-page {
+    margin: 10px;
+    margin-left: 10%;
+    margin-bottom: 0px;
+    font-size: 80px;
 }
 
 #titre-main-page img {
-  width: 90px;
-  height: auto;
+    width: 90px;
+    height: auto;
 }
 
-#sous-titre-main-page{
-  margin: 10px;
-  margin-top: 0px;
-  margin-left: 18%;
-  font-size: 45px;
+#sous-titre-main-page {
+    margin: 10px;
+    margin-top: 0px;
+    margin-left: 18%;
+    font-size: 45px;
 }
 
 .container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #BCE88E;
-  border-radius: 5px;
-  align-items: center;
-  justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #bce88e;
+    border-radius: 5px;
+    align-items: center;
+    justify-items: center;
 }
 
 .pokemon {
-  background-color: #e3f2c2;
-  border-radius: 5px;
-  padding: 8px;
-  border: 2px solid #c7f0a5;
-  width: 150px;
-  position: relative; 
-  min-height: 220px;
-  justify-items: center;
+    background-color: #e3f2c2;
+    border-radius: 5px;
+    padding: 8px;
+    border: 2px solid #c7f0a5;
+    width: 150px;
+    position: relative;
+    min-height: 220px;
+    justify-items: center;
 }
 
 .pokemon-id {
-  position: absolute;
-  bottom: 2px;  
-  right: 5px;    
-  margin: 0 !important;
-  font-size: 0.8rem;
-  color: #444;
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    margin: 0 !important;
+    font-size: 0.8rem;
+    color: #444;
 }
 
 .pokemon p {
-  margin-bottom: 8px;
-  margin-top: 8px;
+    margin-bottom: 8px;
+    margin-top: 8px;
 }
 
 .pokimage {
-  border: 1px solid #AE8E73;
-  border-radius: 3px;
-  width: 140px;
-  height: auto;
-  background-color: #c7f0a5;
+    border: 1px solid #ae8e73;
+    border-radius: 3px;
+    width: 140px;
+    height: auto;
+    background-color: #c7f0a5;
 }
-
 
 /* menu numéro pour choix de page*/
 
 #barre-pagination {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 30px 0;
 }
 
 /* style de base d'un petit carré */
 .bouton-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #374151;
-  font-weight: bold;
-  transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: bold;
+    transition: all 0.2s;
 }
 
 /* effet quand on passe la souris */
 .bouton-page:hover {
-  background-color: #f3f4f6;
-  border-color: #9ca3af;
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
 }
 
 /* style différent pour carré actuel */
 .bouton-page.page-actuelle {
-  background-color: #374151;
-  color: white;
-  border-color: #374151;
+    background-color: #374151;
+    color: white;
+    border-color: #374151;
 }
 
 /* types couleur */
 
 .types {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin: 5px 0;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px 0;
 }
 
 .type-badge {
-  color: white;         
-  padding: 4px 10px; 
-  border-radius: 12px;      
-  font-size: 0.75rem;      
-  font-weight: bold;
-  text-transform: capitalize;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: capitalize;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #card {
     position: relative;
-    background-color: #0f172a !important; 
-    
+    background-color: #0f172a !important;
+
     width: 90%;
     max-width: 800px;
     margin: 50px auto;
@@ -288,32 +319,31 @@ body{
     display: flex;
     flex-direction: column;
     color: white;
-    
-    
+
     border: 2px solid var(--neon-color, #fff);
-    box-shadow: 
+    box-shadow:
         0 0 5px #fff,
         0 0 10px var(--neon-color, #08f),
         inset 0 0 5px var(--neon-color, #08f);
-    
+
     transition: all 0.4s ease-in-out;
 }
 
 #moves {
     display: grid;
     /* Crée autant de colonnes que possible de 110px */
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 15px;
     padding: 25px;
-    width: 100%; 
-    box-sizing: border-box; 
-    
+    width: 100%;
+    box-sizing: border-box;
+
     /* Fond sombre transparent pour laisser deviner le néon du fond */
     background-color: rgba(15, 23, 42, 0.7) !important;
     border-radius: 15px;
     border: 1px solid var(--neon-color) !important;
     margin: 20px 0;
-    
+
     /* Scrollbar stylisée */
     max-height: 400px;
     overflow-y: auto;
@@ -334,83 +364,82 @@ body{
     align-items: center;
     justify-content: center;
     text-align: center;
-    aspect-ratio: 1 / 1; 
-    
+    aspect-ratio: 1 / 1;
+
     background-color: #1e293b;
     color: #cbd5e1;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    
+
     font-size: 0.85rem;
     font-weight: 600;
     padding: 10px;
     margin: 0;
     text-transform: capitalize;
-    
+
     transition: all 0.3s ease;
     cursor: default;
-}  
-
+}
 
 .pokecard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  position: absolute;
-  top: 15px;
-  right: 15px; 
-  width: 200px;  
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--neon-color, #fff);
-    box-shadow: 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--neon-color, #fff);
+    box-shadow:
         0 0 5px #fff,
         0 0 10px var(--neon-color, #08f),
         inset 0 0 5px var(--neon-color, #08f);
-    
+
     transition: all 0.4s ease-in-out;
-  border-radius: 5px;
+    border-radius: 5px;
 }
 
 .pokpokimage {
-  max-width: auto;
-  max-height: auto; 
-  object-fit: contain;
+    max-width: auto;
+    max-height: auto;
+    object-fit: contain;
 }
 
 .pokemon-container {
-  display: flex;          
-  justify-content: space-between; 
-  align-items: center;    
-  background-color:  #0f172a; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0f172a;
 }
 
 .pokemon-infos {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .btn-cry {
-  border: 1px solid var(--neon-color, #fff);
-    box-shadow: 
+    border: 1px solid var(--neon-color, #fff);
+    box-shadow:
         0 0 5px #fff,
         0 0 10px var(--neon-color, #08f),
         inset 0 0 5px var(--neon-color, #08f);
-    
+
     transition: all 0.4s ease-in-out;
-  border-radius: 5px;
-  padding: 8px 15px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: all 0.2s ease;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
 }
 
 .btn-cry:hover {
-  transform: scale(1.05);
-  filter: brightness(1.2);
+    transform: scale(1.05);
+    filter: brightness(1.2);
 }
 
 /* bars de stats*/
@@ -464,117 +493,115 @@ body{
 .stat-total {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /*CSS de la page de recherche*/
 
 #recherche {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  font-family: system-ui, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    font-family: system-ui, sans-serif;
 }
 
 #recherche > p,
 #recherche > h4 {
-  margin: 0.5rem 0;
+    margin: 0.5rem 0;
 }
-
 
 .searched-by-name,
 .searched-by-id {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .searched-by-name img,
 .searched-by-id img {
-  width: 64px;
-  height: 64px;
-  image-rendering: pixelated;
+    width: 64px;
+    height: 64px;
+    image-rendering: pixelated;
 }
 
 .searched-by-name a,
 .searched-by-id a {
-  font-weight: 600;
-  text-decoration: none;
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .searched-by-name a:hover,
 .searched-by-id a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .searched-by-type,
 .searched-by-ability {
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .searched-by-type h4,
 .searched-by-ability h4 {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .type-searched,
 .ability-searched {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.4rem 0.8rem;
-  margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.4rem 0.8rem;
+    margin-top: 0.5rem;
 }
 
 .type-searched div,
 .ability-searched div {
-  padding: 0.25rem 0;
+    padding: 0.25rem 0;
 }
 
 .type-searched a,
 .ability-searched a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .type-searched a:hover,
 .ability-searched a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .searched-by-gen {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.5rem 1rem;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .searched-by-gen div {
-  padding: 0.25rem 0;
+    padding: 0.25rem 0;
 }
 
 .searched-by-gen a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .searched-by-gen a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 #recherche h4:last-child {
-  margin-top: 2rem;
-  text-align: center;
-  opacity: 0.7;
+    margin-top: 2rem;
+    text-align: center;
+    opacity: 0.7;
 }
-
 
 /*---------- menu pokemon--------------*/
 
@@ -621,90 +648,155 @@ body{
 /*barre de recherche*/
 
 .search-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 0.8rem;
-  margin: 1rem auto;
-  max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    margin: 1rem auto;
+    max-width: 600px;
 
-  border-radius: 12px; 
-  border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .search-bar input[type="search"] {
-  flex: 1;
-  padding: 0.5rem 0.7rem;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 0.95rem;
+    flex: 1;
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 0.95rem;
 }
 
 .search-bar input[type="search"]:focus {
-  outline: none;
-  border-color: #4caf50;
+    outline: none;
+    border-color: #4caf50;
 }
 
 .search-bar select {
-  padding: 0.45rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  font-size: 0.9rem;
-  cursor: pointer;
+    padding: 0.45rem 0.6rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+    cursor: pointer;
 }
 
 .green-button {
-  padding: 0.5rem 0.9rem;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
 
-  font-weight: 600;
-  font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 0.9rem;
 
-  background-color: #4caf50;
-  color: white;
+    background-color: #4caf50;
+    color: white;
 }
 
 .green-button:hover {
-  background-color: #43a047;
+    background-color: #43a047;
 }
 
 .green-button:active {
-  transform: scale(0.97);
+    transform: scale(0.97);
 }
 
 .blue-button {
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
 
-  font-weight: 600;
-  font-size: 0.8rem;
+    font-weight: 600;
+    font-size: 0.8rem;
 
-  background-color: #08f;
-  color: white
+    background-color: #08f;
+    color: white;
 }
 
-.blue-button:hover{
-  background-color: rgb(0, 100, 187);
+.blue-button:hover {
+    background-color: rgb(0, 100, 187);
 }
 
-.blue-button:active{
-  transform: scale(0.97)
+.blue-button:active {
+    transform: scale(0.97);
 }
 
-hgroup{
-  width: 800px;
+hgroup {
+    width: 800px;
 }
 
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-hgroup{
-  color: white;
+hgroup {
+    color: white;
+}
+
+#teamList-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 20px;
+    background-color: #0d0d1a;
+    border-radius: 10px;
+}
+
+.team {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #00f3ff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+    transition: all 0.3s ease;
+    min-height: 80px;
+}
+
+.team:hover {
+    box-shadow:
+        0 0 20px rgba(0, 243, 255, 0.4),
+        inset 0 0 10px rgba(0, 243, 255, 0.1);
+    background: rgba(0, 243, 255, 0.05);
+}
+
+.team:empty,
+.empty-text {
+    color: #ff0055;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px #ff0055;
+    opacity: 0.7;
+}
+
+.team img {
+    height: 60px;
+    filter: drop-shadow(0 0 5px #00f3ff);
+    transition: transform 0.2s;
+}
+
+.team img:hover {
+    transform: scale(1.2);
+}
+
+.team input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff0055;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 0 5px #ff0055;
+}
+
+.team input[type="radio"]:checked {
+    background-color: #ff0055;
+    box-shadow: 0 0 15px #ff0055;
 }
