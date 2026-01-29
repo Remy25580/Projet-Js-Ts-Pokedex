@@ -30,72 +30,91 @@ export const typeColors: { [key: string]: string } = {
 };
 
 export function formatId(id: number): string {
-  return `#${id.toString().padStart(4, '0')}`
+  return `#${id.toString().padStart(4, "0")}`;
 }
 
-export function setGenerationAndGame(id: number): string[]{
+export function setGenerationAndGame(id: number): string[] {
   const generations = [
     { max: 152, data: ["First generation", "Pokemon Red, Blue & Yellow"] },
-    { max: 252, data: ["Second generation", "Pokemon Gold, Silver & Crystal"]},
-    { max: 387, data: ["Third generation", "Pokemon Ruby, Sapphire & Emerald"]},
-    { max: 494, data: ["Fourth generation", "Pokemon Diamond, Pearl & Platinium"]},
-    { max: 650, data: ["Fifth generation", "Pokemon Black & White"]},
-    { max: 722, data: ["Sixth generation", "Pokemon X & Y"]},
-    { max: 810, data: ["Seventh generation", "Pokemon Sun & Moon"]},
-    { max: 906, data: ["Eighth generation", "Pokemon Sword & Shield"]},
-  ]
-  const gen = generations.find(i => id < i.max);
+    { max: 252, data: ["Second generation", "Pokemon Gold, Silver & Crystal"] },
+    {
+      max: 387,
+      data: ["Third generation", "Pokemon Ruby, Sapphire & Emerald"],
+    },
+    {
+      max: 494,
+      data: ["Fourth generation", "Pokemon Diamond, Pearl & Platinium"],
+    },
+    { max: 650, data: ["Fifth generation", "Pokemon Black & White"] },
+    { max: 722, data: ["Sixth generation", "Pokemon X & Y"] },
+    { max: 810, data: ["Seventh generation", "Pokemon Sun & Moon"] },
+    { max: 906, data: ["Eighth generation", "Pokemon Sword & Shield"] },
+  ];
+  const gen = generations.find((i) => id < i.max);
   return gen ? gen.data : ["Ninth generation", "Pokemon Scarlet & Violet"];
 }
 
 export function setGenName(id: number): string {
-    const generations = [
-        "first",
-        "second",
-        "third",
-        "fourth",
-        "fifth",
-        "sixth",
-        "seventh",
-        "eigth",
-        "ninth"
-    ]
-    return generations[id-1];
+  const generations = [
+    "first",
+    "second",
+    "third",
+    "fourth",
+    "fifth",
+    "sixth",
+    "seventh",
+    "eigth",
+    "ninth",
+  ];
+  return generations[id - 1];
 }
 
-export function setLocalStorage(){
-  localStorage.setItem('nb', '0')
-  localStorage.setItem('firstTeam', '')
-  localStorage.setItem('secondTeam', '')
-  localStorage.setItem('thirdTeam', '')
-  localStorage.setItem('fourthTeam', '')
-  localStorage.setItem('fifthTeam', '')
+export function setLocalStorage() {
+  localStorage.setItem("nb", "0");
+  localStorage.setItem("firstTeam", "");
+  localStorage.setItem("secondTeam", "");
+  localStorage.setItem("thirdTeam", "");
+  localStorage.setItem("fourthTeam", "");
+  localStorage.setItem("fifthTeam", "");
 }
 
-export function createTeamList(viewOrSelect: string){
-  const teams = [localStorage.getItem('firstTeam'),localStorage.getItem('secondTeam'),localStorage.getItem('thirdTeam'),localStorage.getItem('fourthTeam'),localStorage.getItem('fifthTeam')]
-  let selector = ``
-  let i = 1
-  for(let team of teams){
-    if(viewOrSelect === 'select'){
-      selector = `<input type="radio", name="choice", value=${i}>`
+export function createTeamList(viewOrSelect: string) {
+  const teams = [
+    localStorage.getItem("firstTeam"),
+    localStorage.getItem("secondTeam"),
+    localStorage.getItem("thirdTeam"),
+    localStorage.getItem("fourthTeam"),
+    localStorage.getItem("fifthTeam"),
+  ];
+  let selector = ``;
+  let i = 1;
+  for (let team of teams) {
+    if (viewOrSelect === "select") {
+      selector = `<input type="radio", name="choice", value=${i}>`;
     }
-    let content = selector
-    if(team){
-      for(let pokemon of team.split('/')){
-        if(pokemon){
-          let img = getPokemonsForTeams(+pokemon)
-          content = `${content} ${img}`
+    let content = selector;
+    if (team) {
+      for (let pokemon of team.split("/")) {
+        if (pokemon) {
+          let img = getPokemonsForTeams(+pokemon);
+          content = `${content} ${img}`;
         }
       }
-    }else{
-      content = `${content} Empty team`
+    } else {
+      content = `<span class="empty-text">Empty team</span>`;
     }
-    document.querySelector<HTMLDivElement>('#teamList-content')!.insertAdjacentHTML('beforeend', `<div class="team">
-        ${content}
-      </div>
-      `)
-    i++
+    document
+      .querySelector<HTMLDivElement>("#teamList-content")!
+      .insertAdjacentHTML(
+        "beforeend",
+        `<div class="team">
+          ${selector}
+          <div class="pokemon-slots" style="display:flex; gap:10px; align-items:center;">
+            ${content}
+          </div>
+        </div>
+      `,
+      );
+    i++;
   }
-
 }
