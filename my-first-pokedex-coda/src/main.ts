@@ -13,6 +13,7 @@ const nextButon = document.getElementById("next-modal") as HTMLButtonElement
 const searchBar = document.getElementById("search") as HTMLInputElement
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
+const teamViewer = document.getElementById("teams") as HTMLButtonElement
 let debounceTimer: number
 let pokemonShown: number
 const loader = document.getElementById("loader")!;
@@ -222,4 +223,16 @@ teamCreator.addEventListener('click', () => {
   temp++
   localStorage.setItem('nb', temp.toString())
   numberOfTeams = localStorage.getItem('nb')!*/
+})
+
+teamViewer.addEventListener('click', () => {
+  document.querySelector<HTMLDivElement>('#teamList-content')!.innerHTML = ''
+  createTeamList('view')
+  document.querySelector<HTMLButtonElement>("#close-list")!.classList.remove("hidden")
+  document.querySelector<HTMLDivElement>('#teamList')!.classList.remove("hidden")
+})
+
+document.querySelector<HTMLButtonElement>("#close-list")!.addEventListener('click', () => {
+  document.querySelector<HTMLDivElement>("#teamList")!.classList.add("hidden")
+  document.querySelector<HTMLButtonElement>("#close-list")!.classList.add("hidden")
 })
