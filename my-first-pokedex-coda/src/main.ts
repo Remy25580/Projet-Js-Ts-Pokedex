@@ -14,6 +14,7 @@ const searchBar = document.getElementById("search") as HTMLInputElement
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
 const teamViewer = document.getElementById("teams") as HTMLButtonElement
+const teamSelector = document.getElementById('validate-team') as HTMLButtonElement
 let debounceTimer: number
 let pokemonShown: number
 const loader = document.getElementById("loader")!;
@@ -28,6 +29,7 @@ console.log(numberOfTeams)
 if(+numberOfTeams !== 0){
   document.getElementById("teams")!.classList.remove("hidden")
 }
+localStorage.setItem('selectedTeam', 'none')
 
 let L = (await getPokemonList()).results;
 let hasToBeShown = sessionStorage.getItem('id')
@@ -242,3 +244,9 @@ document.querySelector<HTMLButtonElement>("#close-list")!.addEventListener('clic
   document.querySelector<HTMLButtonElement>("#close-list")!.classList.add("hidden")
 })
 
+teamSelector.addEventListener('click', () => {
+  document.querySelector<HTMLDivElement>('#teamList')!.classList.add("hidden")
+  document.querySelector<HTMLButtonElement>('#teamCreator')!.classList.add("hidden")
+  document.querySelector<HTMLButtonElement>('#teams')!.classList.add("hidden")
+  document.querySelector<HTMLButtonElement>('#validate')!.classList.remove("hidden")
+})

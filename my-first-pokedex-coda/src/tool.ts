@@ -81,7 +81,6 @@ export function setLocalStorage(){
   localStorage.setItem('thirdlenght', '0')
   localStorage.setItem('fourthlenght', '0')
   localStorage.setItem('fifthlenght', '0')
-  localStorage.setItem('selectedTeam', 'none')
 }
 
 export function setTeamNameString(numString: string){
