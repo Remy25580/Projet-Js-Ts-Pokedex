@@ -12,6 +12,7 @@ const prevButon = document.getElementById("previous-modal") as HTMLButtonElement
 const nextButon = document.getElementById("next-modal") as HTMLButtonElement
 const searchBar = document.getElementById("search") as HTMLInputElement
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
+const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
 
 let debounceTimer: number
 
@@ -41,6 +42,7 @@ async function pokeLoad(gap: number, list: { name: string }[]) {
     const pok = await getPokemonIndic(list[i-1].name);
     app.insertAdjacentHTML('beforeend', `
     <div id="pokemon-${pok.id}" class="pokemon to-pokemon-page" data-id=${pok.id}>
+      <input type="checkbox" class="addToTeam hidden">
       <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
       <p>${pok.name}</p>
       <div id="types-${pok.id}" class="types"> </div>
@@ -200,4 +202,10 @@ searchBar.addEventListener('input', () => {
         injectNavigation()
       }
   }, 250)
+})
+
+teamCreator.addEventListener('click', () => {
+  document.querySelectorAll<HTMLInputElement>(".addToTeam").forEach((checkbox) => {
+    checkbox.classList.remove("hidden")
+  })
 })

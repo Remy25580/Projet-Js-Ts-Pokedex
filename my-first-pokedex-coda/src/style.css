@@ -653,7 +653,7 @@ body{
   cursor: pointer;
 }
 
-.search-bar button {
+.green-button {
   padding: 0.5rem 0.9rem;
   border-radius: 10px;
   border: none;
@@ -666,10 +666,45 @@ body{
   color: white;
 }
 
-.search-bar button:hover {
+.green-button:hover {
   background-color: #43a047;
 }
 
-.search-bar button:active {
+.green-button:active {
   transform: scale(0.97);
+}
+
+.blue-button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+
+  font-weight: 600;
+  font-size: 0.8rem;
+
+  background-color: #08f;
+  color: white
+}
+
+.blue-button:hover{
+  background-color: rgb(0, 100, 187);
+}
+
+.blue-button:active{
+  transform: scale(0.97)
+}
+
+hgroup{
+  width: 800px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+hgroup{
+  color: white;
 }
