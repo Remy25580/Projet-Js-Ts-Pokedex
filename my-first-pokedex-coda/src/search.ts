@@ -11,6 +11,17 @@ let type = paramsUrl.get('type')!
 document.title = `PokPok Search: ${search}`
 
 const app = document.querySelector<HTMLDivElement>('#recherche')!
+app.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement
+    const link = target.closest<HTMLAnchorElement>('.link-to-pokemon')
+    if(!link) {return}
+
+    const id = link.dataset.id
+    if(!id) {return}
+
+    sessionStorage.setItem('id', id)
+    console.log(`affichage du pokémon ${id}`)
+})
 
 app.innerHTML = `<h3>You searched the ${type} ${search}</h3>`
 
@@ -112,10 +123,10 @@ switch(type){
 
 app.insertAdjacentHTML('beforeend', `<h4>End of your research!</h4>`)
 
-document.querySelectorAll<HTMLAnchorElement>(".link-to-pokemon")!.forEach(link => {
+/*document.querySelectorAll<HTMLAnchorElement>(".link-to-pokemon")!.forEach(link => {
     link.addEventListener('click', () => {
         const id = link.dataset.id!
         sessionStorage.setItem('id', id)
         console.log(`affichage du pokemon ${id}`)
     })
-})
+})*/
