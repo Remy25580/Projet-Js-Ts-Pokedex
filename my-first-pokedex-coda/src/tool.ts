@@ -70,6 +70,30 @@ export function setLocalStorage(){
   localStorage.setItem('thirdTeam', '')
   localStorage.setItem('fourthTeam', '')
   localStorage.setItem('fifthTeam', '')
+  localStorage.setItem('firstlenght', '0')
+  localStorage.setItem('secondlenght', '0')
+  localStorage.setItem('thirdlenght', '0')
+  localStorage.setItem('fourthlenght', '0')
+  localStorage.setItem('fifthlenght', '0')
+  localStorage.setItem('selectedTeam', 'none')
+}
+
+export function setTeamNameString(numString: string){
+  const num = +numString
+  switch(num){
+    case 1:
+      return 'firstTeam'
+    case 2:
+      return 'secondTeam'
+    case 3:
+      return 'thirdTeam'
+    case 4:
+      return 'fourthTeam'
+    case 5:
+      return 'fifthTeam'
+    default:
+      return 'none'
+  }
 }
 
 export function createTeamList(viewOrSelect: string){

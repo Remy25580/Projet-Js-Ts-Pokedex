@@ -1,5 +1,5 @@
 import './style.css'
-import { formatId, typeColors, setLocalStorage, createTeamList } from './tool';
+import { formatId, typeColors, setLocalStorage, createTeamList, setTeamNameString } from './tool';
 import { getPokemonIndic, getPokemonList } from './api';
 import { details } from './pokemon';
 
@@ -219,10 +219,15 @@ teamCreator.addEventListener('click', () => {
   document.querySelector<HTMLDivElement>('#teamList-content')!.innerHTML = ''
   createTeamList('select')
   document.querySelector<HTMLDivElement>('#teamList')!.classList.remove("hidden")
-  /*let temp = +numberOfTeams
-  temp++
-  localStorage.setItem('nb', temp.toString())
-  numberOfTeams = localStorage.getItem('nb')!*/
+
+  const radios = document.querySelectorAll<HTMLInputElement>('input[name="choice"]')
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.getElementById('validate-team')!.classList.remove("hidden")
+      localStorage.setItem('selectedTeam', setTeamNameString(radio.value))
+    })
+  })
+
 })
 
 teamViewer.addEventListener('click', () => {
@@ -236,3 +241,4 @@ document.querySelector<HTMLButtonElement>("#close-list")!.addEventListener('clic
   document.querySelector<HTMLDivElement>("#teamList")!.classList.add("hidden")
   document.querySelector<HTMLButtonElement>("#close-list")!.classList.add("hidden")
 })
+
