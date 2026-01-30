@@ -1,5 +1,5 @@
 import './style.css'
-import { formatId, typeColors, setLocalStorage, createTeamList, setTeamNameString } from './tool';
+import { formatId, typeColors, setLocalStorage, createTeamList, setTeamNameString, setPokemonsAsChecked } from './tool';
 import { getPokemonIndic, getPokemonList } from './api';
 import { details } from './pokemon';
 
@@ -29,7 +29,7 @@ console.log(numberOfTeams)
 if(+numberOfTeams !== 0){
   document.getElementById("teams")!.classList.remove("hidden")
 }
-localStorage.setItem('selectedTeam', 'none')
+
 
 let L = (await getPokemonList()).results;
 let hasToBeShown = sessionStorage.getItem('id')
@@ -71,6 +71,13 @@ async function pokeLoad(gap: number, list: { name: string }[]) {
     const percent = Math.round(((i - (begin - 1)) / (end - begin)) * 100);
     progressBar.style.width = `${percent}%`;
     progressText.textContent = `Loading: ${percent}%`;
+  }
+
+  if(localStorage.getItem('selectedTeam') !== 'none'){
+    document.querySelectorAll<HTMLInputElement>(".addToTeam").forEach((checkbox) => {
+      checkbox.classList.remove("hidden")
+    })
+    setPokemonsAsChecked()
   }
 
   loader.remove();
@@ -249,4 +256,6 @@ teamSelector.addEventListener('click', () => {
   document.querySelector<HTMLButtonElement>('#teamCreator')!.classList.add("hidden")
   document.querySelector<HTMLButtonElement>('#teams')!.classList.add("hidden")
   document.querySelector<HTMLButtonElement>('#validate')!.classList.remove("hidden")
+
+  setPokemonsAsChecked();
 })

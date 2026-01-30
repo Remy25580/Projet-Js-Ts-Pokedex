@@ -81,6 +81,7 @@ export function setLocalStorage(){
   localStorage.setItem('thirdlenght', '0')
   localStorage.setItem('fourthlenght', '0')
   localStorage.setItem('fifthlenght', '0')
+  localStorage.setItem('selectedTeam', 'none')
 }
 
 export function setTeamNameString(numString: string){
@@ -141,4 +142,15 @@ export function createTeamList(viewOrSelect: string) {
       );
     i++;
   }
+}
+
+export function setPokemonsAsChecked(){
+  const checked = localStorage.getItem(localStorage.getItem('selectedTeam')!)?.split('/')!
+
+  const pokemons = document.querySelectorAll<HTMLDivElement>('.pokemon')
+  pokemons.forEach(pokemon => {
+    if(pokemon.dataset.id! in checked){
+      pokemon.querySelector<HTMLInputElement>('.addToTeam')!.checked = true
+    }
+  })
 }
