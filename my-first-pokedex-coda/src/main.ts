@@ -13,6 +13,7 @@ const nextButon = document.getElementById("next-modal") as HTMLButtonElement
 const searchBar = document.getElementById("search") as HTMLInputElement
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
+const teamList = document.getElementById("teamList") as HTMLDivElement
 const teamViewer = document.getElementById("teams") as HTMLButtonElement
 const teamEditor = document.getElementById('validate') as HTMLButtonElement
 const teamSelector = document.getElementById('validate-team') as HTMLButtonElement
@@ -30,6 +31,11 @@ let numberOfTeams = localStorage.getItem('nb')!
 console.log(numberOfTeams)
 if(+numberOfTeams !== 0){
   document.getElementById("teams")!.classList.remove("hidden")
+}
+if(localStorage.getItem('selectedTeam') !== 'none'){
+  teamCreator.classList.add('hidden')
+  teamViewer.classList.add('hidden')
+  teamEditor.classList.remove('hidden')
 }
 
 
@@ -234,15 +240,15 @@ teamCreator.addEventListener('click', () => {
   document.querySelector<HTMLDivElement>('#teamList-content')!.innerHTML = ''
   createTeamList('select')
   document.querySelector<HTMLDivElement>('#teamList')!.classList.remove("hidden")
+})
 
-  const radios = document.querySelectorAll<HTMLInputElement>('input[name="choice"]')
-  radios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      document.getElementById('validate-team')!.classList.remove("hidden")
-      localStorage.setItem('selectedTeam', setTeamNameString(radio.value))
-    })
-  })
+teamList.addEventListener('change', (event) => {
+  const target = event.target as HTMLInputElement
+  if(target.type !== 'radio') return
+  if(target.name !== 'choice') return
 
+  document.getElementById('validate-team')!.classList.remove("hidden")
+  localStorage.setItem('selectedTeam',setTeamNameString(target.value));
 })
 
 teamViewer.addEventListener('click', () => {
@@ -262,6 +268,7 @@ teamSelector.addEventListener('click', () => {
   document.querySelector<HTMLButtonElement>('#teamCreator')!.classList.add("hidden")
   document.querySelector<HTMLButtonElement>('#teams')!.classList.add("hidden")
   document.querySelector<HTMLButtonElement>('#validate')!.classList.remove("hidden")
+  teamSelector.classList.add("hidden")
 
   setPokemonsAsChecked();
 
@@ -333,6 +340,7 @@ teamEditor.addEventListener('click', () => {
     localStorage.setItem('nb', `${nb}`)
   }
   localStorage.setItem('selectedTeam', 'none')
+  localStorage.setItem('teamStatusBeforeChange', 'unknown')
 
   document.querySelectorAll<HTMLInputElement>(".addToTeam").forEach((checkbox) => {
     checkbox.classList.add("hidden")

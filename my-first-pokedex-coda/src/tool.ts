@@ -82,6 +82,7 @@ export function setLocalStorage(){
   localStorage.setItem('fourthTeamlenght', '0')
   localStorage.setItem('fifthTeamlenght', '0')
   localStorage.setItem('selectedTeam', 'none')
+  localStorage.setItem('teamStatusBeforeChange', 'unknown')
 }
 
 export function setTeamNameString(numString: string){
@@ -103,7 +104,7 @@ export function setTeamNameString(numString: string){
 }
 
 
-export function createTeamList(viewOrSelect: string) {
+export async function createTeamList(viewOrSelect: string) {
   const teams = [
     localStorage.getItem("firstTeam"),
     localStorage.getItem("secondTeam"),
@@ -117,12 +118,12 @@ export function createTeamList(viewOrSelect: string) {
     if (viewOrSelect === "select") {
       selector = `<input type="radio", name="choice", value=${i}>`;
     }
-    let content = selector;
+    let content = ``;
     if (team) {
       for (let pokemon of team.split("/")) {
         if (pokemon) {
-          let img = getPokemonsForTeams(+pokemon);
-          content = `${content} ${img}`;
+          let img = await getPokemonsForTeams(+pokemon);
+          content = `${content} <img src=${img.sprites.front_default} alt="pokemon">`;
         }
       }
     } else {
@@ -145,6 +146,10 @@ export function createTeamList(viewOrSelect: string) {
 }
 
 export function setPokemonsAsChecked(){
+  document.querySelectorAll<HTMLInputElement>('.addToTeam').forEach(check => {
+    check.checked = false
+  })
+
   const checked = localStorage.getItem(localStorage.getItem('selectedTeam')!)?.split('/')!
 
   const pokemons = document.querySelectorAll<HTMLDivElement>('.check-pokemon')
