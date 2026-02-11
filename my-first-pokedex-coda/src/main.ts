@@ -14,12 +14,14 @@ const searchBar = document.getElementById("search") as HTMLInputElement
 const conteneurPagination = document.querySelector<HTMLElement>('#barre-pagination')!;
 const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
 const teamViewer = document.getElementById("teams") as HTMLButtonElement
+const teamEditor = document.getElementById('validate') as HTMLButtonElement
 const teamSelector = document.getElementById('validate-team') as HTMLButtonElement
 let debounceTimer: number
 let pokemonShown: number
 const loader = document.getElementById("loader")!;
 const progressBar = document.querySelector<HTMLDivElement>(".progress-bar")!;
 const progressText = document.getElementById("progress-text")!;
+
 
 if(!localStorage.getItem('nb')){
   setLocalStorage()
@@ -262,6 +264,13 @@ teamSelector.addEventListener('click', () => {
   document.querySelector<HTMLButtonElement>('#validate')!.classList.remove("hidden")
 
   setPokemonsAsChecked();
+
+  
+  if(localStorage.getItem(localStorage.getItem('selectedTeam')!)!.length > 0){
+    localStorage.setItem('teamStatusBeforeChange', 'not-empty')
+  }else{
+    localStorage.setItem('teamStatusBeforeChange', 'empty')
+  }
 })
 
 
@@ -307,6 +316,31 @@ app.addEventListener("change", (event) => {
 
     newTeamLenght = teamLenght.toString()
     localStorage.setItem(`${localStorage.getItem('selectedTeam')!}lenght`, newTeamLenght)
+  }
+
+})
+
+teamEditor.addEventListener('click', () => {
+  let status = localStorage.getItem('teamStatusBeforeChange')!
+  let editedTeam = localStorage.getItem(localStorage.getItem('selectedTeam')!)!
+  let nb = +localStorage.getItem('nb')!
+  if(status == 'empty' && editedTeam.length > 0){
+    nb++
+    localStorage.setItem('nb', `${nb}`)
+  }
+  if(status == 'not-empty' && editedTeam.length == 0){
+    nb = nb-1
+    localStorage.setItem('nb', `${nb}`)
+  }
+  localStorage.setItem('selectedTeam', 'none')
+
+  document.querySelectorAll<HTMLInputElement>(".addToTeam").forEach((checkbox) => {
+    checkbox.classList.add("hidden")
+  })
+  document.querySelector<HTMLButtonElement>('#teamCreator')!.classList.remove("hidden")
+  document.querySelector<HTMLButtonElement>('#validate')!.classList.add("hidden")
+  if(nb > 0){
+    document.querySelector<HTMLButtonElement>("#teams")!.classList.remove("hidden")
   }
 
 })
