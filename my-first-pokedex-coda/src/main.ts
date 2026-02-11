@@ -51,12 +51,16 @@ async function pokeLoad(gap: number, list: { name: string }[]) {
   for(let i = begin; i < end; i++){
     const pok = await getPokemonIndic(list[i-1].name);
     app.insertAdjacentHTML('beforeend', `
-    <div id="pokemon-${pok.id}" class="pokemon to-pokemon-page" data-id=${pok.id}>
-      <input type="checkbox" class="addToTeam hidden">
-      <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
-      <p>${pok.name}</p>
-      <div id="types-${pok.id}" class="types"> </div>
-      <p class="pokemon-id">${formatId(pok.id)}</p>
+    <div class="pokemon-and-checkbox">  
+      <div id="pokemon-${pok.id}" class="pokemon to-pokemon-page" data-id=${pok.id}>
+        <p><img class="pokimage" src=${pok.sprites.front_default} alt="image de ${pok.name}"></p>
+        <p>${pok.name}</p>
+        <div id="types-${pok.id}" class="types"> </div>
+        <p class="pokemon-id">${formatId(pok.id)}</p>
+      </div>
+      <div class="check-pokemon" data-id=${pok.id}>
+        <input type="checkbox" class="addToTeam hidden">
+      </div>
     </div>`)
 
     for (let type of pok.types) {
@@ -258,4 +262,51 @@ teamSelector.addEventListener('click', () => {
   document.querySelector<HTMLButtonElement>('#validate')!.classList.remove("hidden")
 
   setPokemonsAsChecked();
+})
+
+
+app.addEventListener("change", (event) => {
+  const target = event.target as HTMLInputElement
+  if(!target.classList.contains('addToTeam')){
+    return
+  }
+
+  let teamList = localStorage.getItem(localStorage.getItem('selectedTeam')!)!.split('/')
+  let teamLenght = +localStorage.getItem(`${localStorage.getItem('selectedTeam')}lenght`)!
+  let selectedPokemon = target.parentElement?.dataset.id!
+
+  let newTeamList = ''
+  let newTeamLenght: string
+
+  if(target.checked){
+    if(+localStorage.getItem(`${localStorage.getItem('selectedTeam')}lenght`)! > 4){
+      target.checked = false
+      alert("Cannot add this pokemon because that team is already full")
+      return
+    }
+    teamList.pop()
+    teamList.push(selectedPokemon)
+    teamLenght++
+
+    for(let id of teamList){
+      newTeamList = `${newTeamList}${id}/`
+    }
+    localStorage.setItem(localStorage.getItem('selectedTeam')!, newTeamList)
+
+    newTeamLenght = teamLenght.toString()
+    localStorage.setItem(`${localStorage.getItem('selectedTeam')!}lenght`, newTeamLenght)
+  }else{
+    teamList.pop()
+    const listUpdated = teamList.filter(id => id != selectedPokemon)
+    teamLenght = teamLenght - 1
+
+    for(let id of listUpdated){
+      newTeamList = `${newTeamList}${id}/`
+    }
+    localStorage.setItem(localStorage.getItem('selectedTeam')!, newTeamList)
+
+    newTeamLenght = teamLenght.toString()
+    localStorage.setItem(`${localStorage.getItem('selectedTeam')!}lenght`, newTeamLenght)
+  }
+
 })

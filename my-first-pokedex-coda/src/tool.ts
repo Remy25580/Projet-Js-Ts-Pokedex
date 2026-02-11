@@ -76,11 +76,11 @@ export function setLocalStorage(){
   localStorage.setItem('thirdTeam', '')
   localStorage.setItem('fourthTeam', '')
   localStorage.setItem('fifthTeam', '')
-  localStorage.setItem('firstlenght', '0')
-  localStorage.setItem('secondlenght', '0')
-  localStorage.setItem('thirdlenght', '0')
-  localStorage.setItem('fourthlenght', '0')
-  localStorage.setItem('fifthlenght', '0')
+  localStorage.setItem('firstTeamlenght', '0')
+  localStorage.setItem('secondTeamlenght', '0')
+  localStorage.setItem('thirdTeamlenght', '0')
+  localStorage.setItem('fourthTeamlenght', '0')
+  localStorage.setItem('fifthTeamlenght', '0')
   localStorage.setItem('selectedTeam', 'none')
 }
 
@@ -147,9 +147,9 @@ export function createTeamList(viewOrSelect: string) {
 export function setPokemonsAsChecked(){
   const checked = localStorage.getItem(localStorage.getItem('selectedTeam')!)?.split('/')!
 
-  const pokemons = document.querySelectorAll<HTMLDivElement>('.pokemon')
+  const pokemons = document.querySelectorAll<HTMLDivElement>('.check-pokemon')
   pokemons.forEach(pokemon => {
-    if(pokemon.dataset.id! in checked){
+    if(checked.includes(pokemon.dataset.id!)){
       pokemon.querySelector<HTMLInputElement>('.addToTeam')!.checked = true
     }
   })
