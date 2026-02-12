@@ -1,5 +1,5 @@
 import './style.css'
-import { formatId, typeColors, setLocalStorage, createTeamList, setTeamNameString, setPokemonsAsChecked } from './tool';
+import { formatId, typeColors, setLocalStorage, createTeamList, setTeamNameString, setPokemonsAsChecked, createTeamShown } from './tool';
 import { getPokemonIndic, getPokemonList } from './api';
 import { details } from './pokemon';
 
@@ -15,6 +15,7 @@ const conteneurPagination = document.querySelector<HTMLElement>('#barre-paginati
 const teamCreator = document.getElementById("teamCreator") as HTMLButtonElement
 const teamList = document.getElementById("teamList") as HTMLDivElement
 const teamViewer = document.getElementById("teams") as HTMLButtonElement
+const closeTeam = document.getElementById('close-team') as HTMLButtonElement
 const teamEditor = document.getElementById('validate') as HTMLButtonElement
 const teamSelector = document.getElementById('validate-team') as HTMLButtonElement
 let debounceTimer: number
@@ -28,7 +29,6 @@ if(!localStorage.getItem('nb')){
   setLocalStorage()
 }
 let numberOfTeams = localStorage.getItem('nb')!
-console.log(numberOfTeams)
 if(+numberOfTeams !== 0){
   document.getElementById("teams")!.classList.remove("hidden")
 }
@@ -351,4 +351,28 @@ teamEditor.addEventListener('click', () => {
     document.querySelector<HTMLButtonElement>("#teams")!.classList.remove("hidden")
   }
 
+})
+
+teamList.addEventListener('click', (event) => {
+  const target = event.target as HTMLElement
+  const team = target.closest(".team") as HTMLDivElement | null
+  if(!team){
+    return
+  }
+  if(team.classList.contains('empty') || team.classList.contains('creating')){
+    return
+  }
+  event.stopPropagation()
+
+  const name = team.dataset.id
+  if(!name){
+    return
+  }
+
+  document.querySelector<HTMLDivElement>('#teamShown')!.classList.remove('hidden')
+  createTeamShown(name)
+})
+
+closeTeam.addEventListener('click', () => {
+  document.querySelector<HTMLDivElement>('#teamShown')!.classList.add('hidden')
 })

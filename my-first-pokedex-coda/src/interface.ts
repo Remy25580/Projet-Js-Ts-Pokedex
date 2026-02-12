@@ -117,7 +117,25 @@ export interface Generation {
 }
 
 export interface Pokeimage{
+  id: number;
   sprites: {
     front_default: string;
   };
+}
+
+export interface PokemonForTeam{
+  name: string;
+  abilities: [{
+    ability: {
+      name: string;
+    };
+  }];
+  sprites: {
+    front_default: string;
+  };
+  types:[{
+    type: {
+      name: string;
+    };
+  }];
 }

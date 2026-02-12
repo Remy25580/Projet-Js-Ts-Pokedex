@@ -1,4 +1,4 @@
-import { getPokemonsForTeams } from "./api";
+import { getPokemonsForTeams, getPokemonsInATeam } from "./api";
 
 export function getMinStat(base: number, isHP: boolean): number {
   if (isHP) return Math.floor(2 * base + 110);
@@ -113,8 +113,15 @@ export async function createTeamList(viewOrSelect: string) {
     localStorage.getItem("fifthTeam"),
   ];
   let selector = ``;
+  let emptyOrNot
+  let creatingOrNot = ''
+  if(viewOrSelect === 'select'){
+    creatingOrNot = 'creating'
+  }
   let i = 1;
   for (let team of teams) {
+    emptyOrNot = ''
+    let teamName = setTeamNameString(`${i}`)
     if (viewOrSelect === "select") {
       selector = `<input type="radio", name="choice", value=${i}>`;
     }
@@ -128,12 +135,13 @@ export async function createTeamList(viewOrSelect: string) {
       }
     } else {
       content = `<span class="empty-text">Empty team</span>`;
+      emptyOrNot = 'empty'
     }
     document
       .querySelector<HTMLDivElement>("#teamList-content")!
       .insertAdjacentHTML(
         "beforeend",
-        `<div class="team">
+        `<div class="team ${emptyOrNot} ${creatingOrNot}" data-id=${teamName}>
           ${selector}
           <div class="pokemon-slots" style="display:flex; gap:10px; align-items:center;">
             ${content}
@@ -158,4 +166,42 @@ export function setPokemonsAsChecked(){
       pokemon.querySelector<HTMLInputElement>('.addToTeam')!.checked = true
     }
   })
+}
+
+export async function createTeamShown(name: string){
+  const list = localStorage.getItem(name)!.split('/')
+  let pokelist = []
+  let container = document.getElementById('teamShown-content') as HTMLDivElement
+  container.innerHTML = ''
+  let tempPok
+
+  for(const pokemon of list){
+    if(pokemon){
+      tempPok = await getPokemonsInATeam(+pokemon);
+      pokelist.push(tempPok)
+    }
+  }
+
+  for(const pokemon of pokelist){
+    container.insertAdjacentHTML('beforeend', `
+      <img src=${pokemon.sprites.front_default} alt="image de ${pokemon.name}">
+      <p>${pokemon.name}</p>
+      <div id="types-${pokemon.name}" class="types"></div>
+      <div id="abilities-${pokemon.name}" class="abilities"></div>
+      `)
+    for(const type of pokemon.types){
+      const typeName = type.type.name
+      const color = typeColors[typeName] || "";
+      container.querySelector<HTMLDivElement>(`#types-${pokemon.name}`)!.insertAdjacentHTML('beforeend', `
+      <div class="type-badge" style="background-color: ${color}">
+        ${typeName}
+      </div>`);
+    }
+    for(const ability of pokemon.abilities){
+      container.querySelector<HTMLDivElement>(`#abilities-${pokemon.name}`)!.insertAdjacentHTML('beforeend', `
+        <div class="ability">
+          ${ability.ability.name}
+        </div>`)
+    }
+  }
 }
