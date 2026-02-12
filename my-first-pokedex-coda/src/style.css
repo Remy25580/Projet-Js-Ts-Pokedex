@@ -736,67 +736,122 @@ hgroup {
     color: white;
 }
 
+/*affichage des teams non crée et déja crée*/
+
 #teamList-content {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    padding: 20px;
+    gap: 12px;
+    padding: 15px;
     background-color: #0d0d1a;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .team {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 15px;
+    display: grid;
+    grid-template-columns: 40px 1fr; 
+    align-items: center; 
+    min-height: 75px;
+    padding: 10px 20px;
     background: rgba(255, 255, 255, 0.03);
-    border: 1px solid #00f3ff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-    transition: all 0.3s ease;
-    min-height: 80px;
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
 }
 
-.team:hover {
-    box-shadow:
-        0 0 20px rgba(0, 243, 255, 0.4),
-        inset 0 0 10px rgba(0, 243, 255, 0.1);
-    background: rgba(0, 243, 255, 0.05);
-}
-
-.team:empty,
-.empty-text {
-    color: #ff0055;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-shadow: 0 0 8px #ff0055;
-    opacity: 0.7;
+.pokemon-slots {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding-left: 10px;
 }
 
 .team img {
-    height: 60px;
-    filter: drop-shadow(0 0 5px #00f3ff);
+    height: 55px;
+    width: 55px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.5));
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 243, 255, 0.1);
     transition: transform 0.2s;
 }
 
-.team img:hover {
-    transform: scale(1.2);
+.team:hover:not(.empty) {
+    background: rgba(0, 243, 255, 0.1);
+    border-color: #00f3ff;
+    transform: translateX(8px);
+}
+
+.team:hover img {
+    transform: scale(1.05);
 }
 
 .team input[type="radio"] {
-    appearance: none;
+    margin: 0;
+    cursor: pointer;
     width: 20px;
     height: 20px;
-    border: 2px solid #ff0055;
-    border-radius: 50%;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 0 5px #ff0055;
+    accent-color: #00f3ff;
 }
 
-.team input[type="radio"]:checked {
-    background-color: #ff0055;
-    box-shadow: 0 0 15px #ff0055;
+.team.empty {
+    border: 1px dashed #ff0055;
+    background: rgba(255, 0, 85, 0.02);
+}
+
+.empty-text {
+    color: #64748b;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#teamShown-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.pokemon-card-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    min-width: 120px;
+    transition: transform 0.2s;
+}
+
+.pokemon-card-mini:hover {
+    transform: translateY(-5px);
+    border-color: #00f3ff;
+}
+
+.pokemon-name {
+    font-weight: bold;
+    text-transform: capitalize;
+    margin: 8px 0;
+    color: #fff;
+}
+
+.types-container, .abilities-container {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ability {
+    font-size: 0.7rem;
+    background: #334155;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #cbd5e1;
 }

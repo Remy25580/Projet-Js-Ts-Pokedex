@@ -85,7 +85,9 @@ async function mainInjection(currentPokemon: Pokemon, color: string, id: number)
         </div>
 
         <div id="tab-moves" class="tab-content">
-          <div class="moves">${movesHTML}</div>
+          <div id="moves" style="--neon-color: ${color}"> <h4 style="color: ${color}">Moves :</h4>
+            ${movesHTML} 
+          </div>
         </div>
         
         <div id="tab-abilities" class="tab-content">

@@ -112,42 +112,45 @@ export async function createTeamList(viewOrSelect: string) {
     localStorage.getItem("fourthTeam"),
     localStorage.getItem("fifthTeam"),
   ];
-  let selector = ``;
-  let emptyOrNot
-  let creatingOrNot = ''
-  if(viewOrSelect === 'select'){
-    creatingOrNot = 'creating'
-  }
+
+  let creatingOrNot = viewOrSelect === 'select' ? 'creating' : '';
   let i = 1;
+
   for (let team of teams) {
-    emptyOrNot = ''
-    let teamName = setTeamNameString(`${i}`)
+    let emptyOrNot = '';
+    let teamName = setTeamNameString(`${i}`);
+    let actionContent = ``;
     if (viewOrSelect === "select") {
-      selector = `<input type="radio", name="choice", value=${i}>`;
+      actionContent = `<input type="radio" name="choice" value="${i}">`;
+    } else {
+      actionContent = `<span style="color: #00f3ff; font-weight: bold; font-size: 0.8rem;">#${i}</span>`;
     }
+
     let content = ``;
-    if (team) {
-      for (let pokemon of team.split("/")) {
-        if (pokemon) {
-          let img = await getPokemonsForTeams(+pokemon);
-          content = `${content} <img src=${img.sprites.front_default} alt="pokemon">`;
-        }
+    if (team && team.length > 0) {
+      const pokemonIds = team.split("/").filter(id => id !== "");
+      
+      for (let pokemon of pokemonIds) {
+        let img = await getPokemonsForTeams(+pokemon);
+        content += `<img src="${img.sprites.front_default}" alt="pokemon">`;
       }
     } else {
       content = `<span class="empty-text">Empty team</span>`;
-      emptyOrNot = 'empty'
+      emptyOrNot = 'empty';
     }
+
     document
       .querySelector<HTMLDivElement>("#teamList-content")!
       .insertAdjacentHTML(
         "beforeend",
-        `<div class="team ${emptyOrNot} ${creatingOrNot}" data-id=${teamName}>
-          ${selector}
-          <div class="pokemon-slots" style="display:flex; gap:10px; align-items:center;">
+        `<div class="team ${emptyOrNot} ${creatingOrNot}" data-id="${teamName}">
+          <div class="team-action-zone" style="display: flex; justify-content: center; align-items: center;">
+            ${actionContent}
+          </div>
+          <div class="pokemon-slots">
             ${content}
           </div>
-        </div>
-      `,
+        </div>`
       );
     i++;
   }
@@ -184,11 +187,13 @@ export async function createTeamShown(name: string){
 
   for(const pokemon of pokelist){
     container.insertAdjacentHTML('beforeend', `
-      <img src=${pokemon.sprites.front_default} alt="image de ${pokemon.name}">
-      <p>${pokemon.name}</p>
-      <div id="types-${pokemon.name}" class="types"></div>
-      <div id="abilities-${pokemon.name}" class="abilities"></div>
-      `)
+        <div class="pokemon-card-mini">
+          <img src="${pokemon.sprites.front_default}" alt="image de ${pokemon.name}">
+          <p class="pokemon-name">${pokemon.name}</p>
+          <div id="types-${pokemon.name}" class="types-container"></div>
+          <div id="abilities-${pokemon.name}" class="abilities-container"></div>
+        </div>
+      `);
     for(const type of pokemon.types){
       const typeName = type.type.name
       const color = typeColors[typeName] || "";
